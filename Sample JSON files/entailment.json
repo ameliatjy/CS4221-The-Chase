@@ -1,0 +1,46 @@
+{
+  "chase": {
+    "entailment": {
+      "relation": {
+        "attribute": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ]
+      },
+      "dependency": [
+        {
+          "lhs": {
+            "attribute": "A"
+          },
+          "rhs": {
+            "attribute": [
+              "B",
+              "C"
+            ]
+          },
+          "type": "multivalued"
+        },
+        {
+          "lhs": {
+            "attribute": "D"
+          },
+          "rhs": {
+            "attribute": "C"
+          },
+          "type": "functional"
+        }
+      ],
+      "dependency_to_be_chased": {
+        "lhs": {
+          "attribute": "A"
+        },
+        "rhs": {
+          "attribute": "C"
+        },
+        "type": "functional"
+      }
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "chase": {
+    "loseless_decomposition": {
+      "relation": {
+        "attribute": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ]
+      },
+      "fragment": [
+        {
+          "attribute": [
+            "A",
+            "B"
+          ]
+        },
+        {
+          "attribute": [
+            "C",
+            "D"
+          ]
+        }
+      ],
+      "dependency": [
+        {
+          "lhs": {
+            "attribute": "A"
+          },
+          "rhs": {
+            "attribute": [
+              "B",
+              "C"
+            ]
+          },
+          "type": "multivalued"
+        },
+        {
+          "lhs": {
+            "attribute": "D"
+          },
+          "rhs": {
+            "attribute": "C"
+          },
+          "type": "functional"
+        }
+      ]
+    }
+  }
+}
