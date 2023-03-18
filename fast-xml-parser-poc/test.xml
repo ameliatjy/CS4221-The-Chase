@@ -1,0 +1,7 @@
+<? xml encoding="UTF-8" standalone="yes" version="1.0" ?>
+<bookstore>
+        <book>
+                <title>How to win friends and influence people</title>
+                <author>Dale Carnegie</author>
+        </book>
+</bookstore>
