@@ -1,43 +1,85 @@
 <!-- This file outlines how our XML will be formatted -->
 
-<!-- WZ's original suggestion
 
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<chase_inputs>
-  <attributes>A,B,C,D</attributes>
-  <dependency>
-    <lhs>
+<!-- Updated input XML format based on the discussion on 17 Mar 2022 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<chase>
+  <entailment>
+    <relation>
       <attribute>A</attribute>
-    </lhs>
-    <rhs>
       <attribute>B</attribute>
-	  <attribute>C</attribute>
-    </rhs>
-    <type>multivalued</type>
-  </dependency>
-  <dependency>
-    <lhs>
+      <attribute>C</attribute>
       <attribute>D</attribute>
-    </lhs>
-    <rhs>
+    </relation>
+    <dependency>
+      <lhs>
+        <attribute>A</attribute>
+      </lhs>
+      <rhs>
+        <attribute>B</attribute>
       <attribute>C</attribute>
-    </rhs>
-    <type>functional</type>
-  </dependency>
-  <dependency_to_be_chased>
-    <lhs>
+      </rhs>
+      <type>multivalued</type>
+    </dependency>
+    <dependency>
+      <lhs>
+        <attribute>D</attribute>
+      </lhs>
+      <rhs>
+        <attribute>C</attribute>
+      </rhs>
+      <type>functional</type>
+    </dependency>
+    <dependency_to_be_chased>
+      <lhs>
+        <attribute>A</attribute>
+      </lhs>
+      <rhs>
+        <attribute>C</attribute>
+      </rhs>
+      <type>functional</type>
+    </dependency_to_be_chased>
+  </entailment>
+
+  <loseless_decomposition>
+    <relation>
       <attribute>A</attribute>
-    </lhs>
-    <rhs>
+      <attribute>B</attribute>
       <attribute>C</attribute>
-    </rhs>
-    <type>functional</type>
-  </dependency_to_be_chased>
-</chase_inputs>
+      <attribute>D</attribute>
+    </relation>
+    <fragment>
+      <attribute>A</attribute>
+      <attribute>B</attribute>
+    </fragment>
+    <fragment>
+      <attribute>C</attribute>
+      <attribute>D</attribute>
+    </fragment>
+    <dependency>
+      <lhs>
+        <attribute>A</attribute>
+      </lhs>
+      <rhs>
+        <attribute>B</attribute>
+      <attribute>C</attribute>
+      </rhs>
+      <type>multivalued</type>
+    </dependency>
+    <dependency>
+      <lhs>
+        <attribute>D</attribute>
+      </lhs>
+      <rhs>
+        <attribute>C</attribute>
+      </rhs>
+      <type>functional</type>
+    </dependency>
+  </loseless_decomposition>
+</chase>
 
--->
 
-<Chase>
+<!-- <Chase>
         <ChaseForEntailment>
                 <Relation r="ABCD" />
                 <FD l="A" r="B" />
@@ -57,7 +99,7 @@
                 <ChaseMVD l="A" r="C" />
         </ChaseForMVD>
 </Chase>
-
+ -->
 <!-- Based on the formats above, we have a DTD like the one below, this can either be in this file or can be included by our program -->
 
 <!DOCTYPE Chase [
