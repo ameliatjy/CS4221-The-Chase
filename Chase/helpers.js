@@ -99,3 +99,42 @@ export function prettyPrintJD(JD) {
 
         return JDString;
 }
+
+export function convertMVDsToJDs(relation, C) {
+        let processedC = [];
+
+        for (let i = 0; i < C.length; i++) {
+                let FD = C[i];
+                if (FD.mvd) {
+                        let JD = {
+                                relationSchemes: convertMVDToFragments(relation, FD),
+                        }
+
+                        processedC.push(JD);
+                } else {
+                        processedC.push(FD);
+                }
+        }
+
+        return processedC;
+}
+
+export function snapshotOfTableau(tableau) {
+        return JSON.parse(JSON.stringify(tableau));
+}
+
+export function checkIfTableauChanged(initialTableau, newTableau) {
+        if (initialTableau.rows.length !== newTableau.rows.length) {
+                return true;
+        }
+
+        for (let i = 0; i < initialTableau.rows.length; i++) {
+                for (let j = 0; j < initialTableau.rows[i].length; j++) {
+                        if (initialTableau.rows[i][j] !== newTableau.rows[i][j]) {
+                                return true;
+                        }
+                }
+        }
+
+        return false;
+}

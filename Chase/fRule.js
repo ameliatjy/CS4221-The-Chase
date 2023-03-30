@@ -143,8 +143,15 @@ function updateValues(valueOne, valueTwo) {
         // non-distinguished variables: b with subscript, e.g. b1, b2, b3, ...
 
         // if both valueOne and valueTwo are distiguished variables, return the distinguished variable that has the lowest subscript
-        // console.log(valueOne, valueTwo);
-        if (valueOne[0] === 'a' && valueTwo[0] === 'a') {
+        // console.log('values: ', valueOne, valueTwo);
+        
+        let isValueOneDistiguished = valueOne[0] === 'a';
+        let isValueTwoDistiguished = valueTwo[0] === 'a';
+        let areBothDistiguished = isValueOneDistiguished && isValueTwoDistiguished;
+        let areBothNonDistiguished = ! isValueOneDistiguished && ! isValueTwoDistiguished;
+        let isOneDistiguishedAndOneNonDistiguished = ! areBothDistiguished && ! areBothNonDistiguished;
+
+        if (areBothDistiguished) {
                 let valueOneSubscript = valueOne.slice(1);
                 let valueTwoSubscript = valueTwo.slice(1);
                 if (valueOneSubscript < valueTwoSubscript) {
@@ -155,11 +162,16 @@ function updateValues(valueOne, valueTwo) {
         }
 
         // if one of the values is a distiguished variable while the other is not, return the distinguished variable
-        if (valueOne[0] === 'a' && valueTwo[0] === 'b') {
-                return valueOne;
+        if (isOneDistiguishedAndOneNonDistiguished) {
+                if (isValueOneDistiguished) {
+                        return valueOne;
+                } else {
+                        return valueTwo;
+                }
         }
+
         // if both are non-distinguished variables, return the non-distinguished variable that has a lower subscript
-        if (valueOne[0] === 'b' && valueTwo[0] === 'b') {
+        if (areBothNonDistiguished) {
                 let valueOneSubscript = valueOne.slice(1);
                 let valueTwoSubscript = valueTwo.slice(1);
                 if (valueOneSubscript < valueTwoSubscript) {

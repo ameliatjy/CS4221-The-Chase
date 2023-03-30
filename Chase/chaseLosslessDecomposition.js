@@ -1,13 +1,80 @@
 import { setupTableauForRelationSchemes } from './setupTableau.js';
+import { convertMVDsToJDs, isFD, isJD, prettyPrintJD, snapshotOfTableau, checkIfTableauChanged } from './helpers.js';
+import { fRule } from './fRule.js';
+import { jRule } from './jRule.js';
 
 export function chaseLosslessDecomposition(relation, C, relationSchemes) {
+        let steps = [];
         // step 1: setup the tableau for the relationSchemes based on the relation
         let tableau = setupTableauForRelationSchemes(relation, relationSchemes);
+        // create a JD from the relationSchemes
+        let JD = {
+                relationSchemes,
+        };
 
-        console.log(`Relation: ${relation}`);
-        console.log(`Relation Schemes: ${relationSchemes}`);
-        console.log(`Tableau: `, tableau);
-        // step 2: loop through C and apply F-rule for each FD in C
-        // step 3: loop through C and apply J-rule for each JD in C
+        steps.push({
+                description: `Setup tableau to test if join dependency ${prettyPrintJD(JD)} is implied`,
+                tableau: snapshotOfTableau(tableau),
+        });
+
+        let processedC = convertMVDsToJDs(relation, C);
+        
+        // step 2: loop through the dependencies and apply F-rule for FDs and J-rule for JDs
+        // repeat until no more changes to the tableau
+        let tableauChanged = true;
+        // while (tableauChanged) {
+                tableauChanged = false;
+
+
+                for (let i = 0; i < processedC.length; i++) {
+                        let currentDependency = processedC[i];
+                        let initialTableau = snapshotOfTableau(tableau);
+
+                        if (isFD(currentDependency)) {
+                                tableau = fRule(tableau, currentDependency);
+                                if (checkIfTableauChanged(initialTableau, tableau)) {
+                                        tableauChanged = true;
+                                        steps.push({
+                                                description: `Apply F-rule to ${currentDependency.lhs} -> ${currentDependency.rhs}`,
+                                                tableau: snapshotOfTableau(tableau),
+                                        });
+                                        continue;
+                                }
+
+                        }
+
+                        if (isJD(currentDependency)) {
+                                tableau = jRule(tableau, currentDependency);
+
+                                if (checkIfTableauChanged(initialTableau, tableau)) {
+                                        tableauChanged = true;
+                                        steps.push({
+                                                description: `Apply J-rule to ${currentDependency.lhs} -> ${currentDependency.rhs}`,
+                                                tableau: snapshotOfTableau(tableau),
+                                        });
+                                        continue;
+                                }
+                        }
+                }
+
+                // check if the tableau changed
+                if (tableauChanged) {
+                        steps.push({
+                                description: `Tableau changed, repeat`,
+                                tableau: snapshotOfTableau(tableau),
+                        });
+                } else {
+                        tableauChanged = false;
+                }       
+        // }
+
         // step 4: return the tableau
+        console.log('tableau', tableau);
+        
+        // return { isLossless: true, steps: [], finalTableau: tableau };
+        return {
+                isLossless: true,
+                steps,
+                finalTableau: tableau,
+        };
 }

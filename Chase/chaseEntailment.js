@@ -1,5 +1,5 @@
 import { setupTableauForChasingFD, setupTableauForChasingMVD } from './setupTableau.js';
-import { convertMVDToFragments, isFD, isJD, prettyPrintJD } from './helpers.js';
+import { convertMVDsToJDs, isFD, isJD, prettyPrintJD } from './helpers.js';
 import { fRule } from './fRule.js';
 import { jRule } from './jRule.js';
 
@@ -33,25 +33,4 @@ export function chaseEntailmentMVD(relation, C, MVD) {
 
         return chaseLosslessDecomposition(relation, processedC, tableau);
 }
-
-
-function convertMVDsToJDs(relation, C) {
-        let processedC = [];
-
-        for (let i = 0; i < C.length; i++) {
-                let FD = C[i];
-                if (FD.mvd) {
-                        let JD = {
-                                relationSchemes: convertMVDToFragments(relation, FD),
-                        }
-
-                        processedC.push(JD);
-                } else {
-                        processedC.push(FD);
-                }
-        }
-
-        return processedC;
-}
-
 

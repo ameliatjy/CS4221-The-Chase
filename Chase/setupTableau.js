@@ -2,8 +2,6 @@ import { convertMVDToFragments } from './helpers.js';
 
 export function setupTableauForRelationSchemes(relation, relationSchemes) {
         // note that relation is an array of column names
-        // set distinguished variable count to 1
-        let distinguishedVariableCount = 1;
         // set non-distinguished variable count to 1
         let nonDistinguishedVariableCount = 1;
 
@@ -21,8 +19,7 @@ export function setupTableauForRelationSchemes(relation, relationSchemes) {
                 for (let j = 0; j < relation.length; j++) {
                         let currentColumn = relation[j];
                         if (currentRelationScheme.includes(currentColumn)) {
-                                currentRow.push(`a${distinguishedVariableCount}`);
-                                distinguishedVariableCount++;
+                                currentRow.push(`a${j + 1}`);
                         } else {
                                 currentRow.push(`b${nonDistinguishedVariableCount}`);
                                 nonDistinguishedVariableCount++;

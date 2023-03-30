@@ -17,7 +17,18 @@ relationSchemes = [
 
 // test case 2
 relation = ['A', 'B', 'C', 'D'];
-C = [];
+C = [
+        {
+                lhs: ['A'],
+                rhs: ['D'],
+        },
+        {
+                relationSchemes: [
+                        ['A', 'B'],
+                        ['B', 'C', 'D'],
+                ]
+        },
+];
 relationSchemes = [
         ['A', 'B'],
         ['B', 'C'],
