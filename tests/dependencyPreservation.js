@@ -1,5 +1,4 @@
 import { chase } from "../backend/chase";
-import { TEST_DEPENDENCY_PRESERVATION } from "../backend/global";
 
 const task = TEST_DEPENDENCY_PRESERVATION
 

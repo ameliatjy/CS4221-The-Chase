@@ -1,5 +1,4 @@
 import { chase } from "../backend/chase";
-import { LOSSLESS_DECOMPOSITION } from "../backend/global";
 
 const task = LOSSLESS_DECOMPOSITION
 

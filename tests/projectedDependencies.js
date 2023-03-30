@@ -1,5 +1,4 @@
 import { chase } from "../backend/chase";
-import { PROJECTED_DEPENDENCIES } from "../backend/global";
 
 const task = PROJECTED_DEPENDENCIES
 

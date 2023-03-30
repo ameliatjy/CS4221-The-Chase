@@ -1,4 +1,9 @@
-import { ENTAILMENT, MINIMAL_COVER, PROJECTED_DEPENDENCIES, TEST_DEPENDENCY_PRESERVATION } from "./global"
+// constants for the different chase tasks
+const ENTAILMENT = 1;
+const LOSSLESS_DECOMPOSITION = 2;
+const PROJECTED_DEPENDENCIES = 3;
+const MINIMAL_COVER = 4;
+const TEST_DEPENDENCY_PRESERVATION = 5;
 
 /**
  * This function runs the chase algorithm.
@@ -15,7 +20,7 @@ import { ENTAILMENT, MINIMAL_COVER, PROJECTED_DEPENDENCIES, TEST_DEPENDENCY_PRES
  * 
  * @return {Object} Result of chase and array of tableau state at each step of chase.
  */
-export function chase(relation, fds, task, otherInfo) {
+function chase(relation, fds, task, otherInfo) {
   switch (task) {
     case ENTAILMENT:
       chaseEntailment();

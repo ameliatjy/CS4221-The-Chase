@@ -1,5 +1,4 @@
 import { chase } from "../backend/chase";
-import { MINIMAL_COVER } from "../backend/global";
 
 const task = MINIMAL_COVER
 const otherInfo = null

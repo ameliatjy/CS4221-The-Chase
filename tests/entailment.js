@@ -1,5 +1,4 @@
 import { chase } from "../backend/chase";
-import { ENTAILMENT } from "../backend/global";
 
 const task = ENTAILMENT
 
