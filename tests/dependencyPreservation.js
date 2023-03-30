@@ -1,5 +1,3 @@
-import { chase } from "../backend/chase";
-
 const task = TEST_DEPENDENCY_PRESERVATION
 
 /**

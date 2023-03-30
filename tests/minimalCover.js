@@ -1,5 +1,3 @@
-import { chase } from "../backend/chase";
-
 const task = MINIMAL_COVER
 const otherInfo = null
 
