@@ -19,12 +19,12 @@ export function chaseLosslessDecomposition(relation, C, relationSchemes) {
 
         let processedC = convertMVDsToJDs(relation, C);
         
-        // step 2: loop through the dependencies and apply F-rule for FDs and J-rule for JDs
-        // repeat until no more changes to the tableau
-        let tableauChanged = true;
-        // while (tableauChanged) {
-                tableauChanged = false;
+        // step 2: loop through the dependencies and apply F-rule for FDs and J-rule for JDs. Repeat until no changes are made to the tableau.
 
+        let iterations = 0;
+        let tableauChanged = true;
+        while (iterations < 3) {
+                tableauChanged = false;
 
                 for (let i = 0; i < processedC.length; i++) {
                         let currentDependency = processedC[i];
@@ -45,28 +45,26 @@ export function chaseLosslessDecomposition(relation, C, relationSchemes) {
 
                         if (isJD(currentDependency)) {
                                 tableau = jRule(tableau, currentDependency);
-
                                 if (checkIfTableauChanged(initialTableau, tableau)) {
                                         tableauChanged = true;
                                         steps.push({
-                                                description: `Apply J-rule to ${currentDependency.lhs} -> ${currentDependency.rhs}`,
+                                                description: `Apply J-rule to ${prettyPrintJD(currentDependency)}`,
                                                 tableau: snapshotOfTableau(tableau),
                                         });
                                         continue;
                                 }
                         }
+
                 }
 
-                // check if the tableau changed
-                if (tableauChanged) {
-                        steps.push({
-                                description: `Tableau changed, repeat`,
-                                tableau: snapshotOfTableau(tableau),
-                        });
-                } else {
-                        tableauChanged = false;
-                }       
-        // }
+                steps.push({
+                        description: `Tableau after iteration ${iterations}`,
+                        tableau: snapshotOfTableau(tableau),
+                });
+
+                iterations++;
+        }
+
 
         // step 4: return the tableau
         console.log('tableau', tableau);
