@@ -10,7 +10,7 @@ import { ENTAILMENT, MINIMAL_COVER, PROJECTED_DEPENDENCIES, TEST_DEPENDENCY_PRES
  *                            For task ENTAILMENT, dependency to chase for.
  *                            For task LOSSLESS_DECOMPOSITION, table decomposition schemas.
  *                            For task PROJECTED_DEPENDENCIES, subset of relation.
- *                            For task MINIMAL_COVER, list of functional dependencies.
+ *                            For task MINIMAL_COVER, null.
  *                            For task TEST_DEPENDENCY_PRESERVATION, schemas of the decomposed fragments.
  * 
  * @return {Object} Result of chase and array of tableau state at each step of chase.
