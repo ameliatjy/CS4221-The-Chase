@@ -1,0 +1,142 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>The Chase</title>
+    <link href="css/homepage.css" rel="stylesheet">
+	<script src="js/homepage.js"></script>
+    <script src="js/chase.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <div class="logo">
+                <img src="image/home.png" width="50" height="50">
+            </div>
+            <div class="title">
+                <h1>The Chase</h1>
+				<h2>By Project Group 26</h2>
+            </div>   
+        </header>
+        <article>
+            <div class="tab">
+                <button class="tabLinks" onclick="showFeature(event, 'entailment')" id="defaultShow">Entailment</button>
+                <button class="tabLinks" onclick="showFeature(event, 'lossless')">Lossless Decomposition</button>
+                <button class="tabLinks" onclick="showFeature(event, 'projected')">Projected Dependencies</button>
+                <button class="tabLinks" onclick="showFeature(event, 'minimum')">Minimum Cover</button>
+                <button class="tabLinks" onclick="showFeature(event, 'preservation')">Dependency Preservation</button>
+            </div>
+            <div id="entailment" class="tabContent">
+                <div class="inputSegment">
+                    <h3>Select Input XML File</h3>
+                    <input type="file" class="fileUploadButton" id="myFile" accept=".xml">
+                </div>
+                <div class="inputSegment">
+                    <h3>Select Chase Variation</h3>
+                    <div class="selectChaseVariation">
+                        <input type="radio" id="simple" name="choice" value="simple" checked><label for="simple">Simple Chase</label>
+                        <input type="radio" id="distVar" name="choice" value="dist_var"><label for="distVar">Chase with Distinguished Variables</label>
+                    </div>
+                </div>
+                <div class="button" onclick="showOutputForEntailment()">Run Chase</div>
+            </div>
+            <div id="lossless" class="tabContent">
+                <div class="inputSegment">
+                    <h3>Select Input XML File</h3>
+                    <input type="file" class="fileUploadButton" id="myFile" accept=".xml">
+                </div>
+                <div class="button">Run Chase</div>
+            </div>
+            <div id="projected" class="tabContent">
+                <div class="inputSegment">
+                    <h3>Select Input XML File</h3>
+                    <input type="file" class="fileUploadButton" id="myFile" accept=".xml">
+                </div>
+                <div class="button">Run Chase</div>
+            </div>
+            <div id="minimum" class="tabContent">
+                <div class="inputSegment">
+                    <h3>Select Input XML File</h3>
+                    <input type="file" class="fileUploadButton" id="myFile" accept=".xml">
+                </div>
+                <div class="button">Run Chase</div>
+            </div>
+            <div id="preservation" class="tabContent">
+                <div class="inputSegment">
+                    <h3>Select Input XML File</h3>
+                    <input type="file" class="fileUploadButton" id="myFile" accept=".xml">
+                </div>
+                <div class="button">Run Chase</div>
+            </div>
+            <div id="userInput">
+                <h3>Your Input Data</h3>
+                <div id="userInputFields"></div>
+            </div>
+            <!-- Output is currently hardcoded -->
+            <div id="output">
+                <div class="step">
+                    <h3>Step 1: Setting the Chase</h3>
+                    <table>
+                      <tr>
+                        <th>A</th>
+                        <th>B</th>
+                        <th>C</th>
+                        <th>D</th>
+                      </tr>
+                      <tr>
+                        <td>a1</td>
+                        <td>b1</td>
+                        <td>c1</td>
+                        <td>d1</td>
+                      </tr>
+                      <tr>
+                        <td>a1</td>
+                        <td>b2</td>
+                        <td>c2</td>
+                        <td>d2</td>
+                      </tr>
+                    </table>
+                </div>
+                <div class="step">
+                    <h3>Step 2: Use {A} →→ {B,C}</h3>
+                    <table>
+                      <tr>
+                        <th>A</th>
+                        <th>B</th>
+                        <th>C</th>
+                        <th>D</th>
+                      </tr>
+                      <tr>
+                        <td>a1</td>
+                        <td>b1</td>
+                        <td>c1</td>
+                        <td>d1</td>
+                      </tr>
+                      <tr>
+                        <td>a1</td>
+                        <td>b2</td>
+                        <td>c2</td>
+                        <td>d2</td>
+                      </tr>
+                      <tr>
+                        <td>a1</td>
+                        <td>b2</td>
+                        <td>c2</td>
+                        <td>d1</td>
+                      </tr>
+                      <tr>
+                        <td>a1</td>
+                        <td>b1</td>
+                        <td>c1</td>
+                        <td>d2</td>
+                      </tr>
+                    </table>
+                </div>
+            </div>
+        </article>
+        <footer>
+        </footer>
+    </div>
+</body>
+<script src="js/fxparser.min.js"></script>
+<script>document.getElementById("defaultShow").click();</script>
+</html>

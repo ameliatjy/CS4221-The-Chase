@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chase>
+  <loseless_decomposition>
+    <relation>
+      <attribute>A</attribute>
+      <attribute>B</attribute>
+      <attribute>C</attribute>
+      <attribute>D</attribute>
+    </relation>
+    <fragment>
+      <attribute>A</attribute>
+      <attribute>B</attribute>
+    </fragment>
+    <fragment>
+      <attribute>C</attribute>
+      <attribute>D</attribute>
+    </fragment>
+    <dependency>
+      <lhs>
+        <attribute>A</attribute>
+      </lhs>
+      <rhs>
+        <attribute>B</attribute>
+      <attribute>C</attribute>
+      </rhs>
+      <type>multivalued</type>
+    </dependency>
+    <dependency>
+      <lhs>
+        <attribute>D</attribute>
+      </lhs>
+      <rhs>
+        <attribute>C</attribute>
+      </rhs>
+      <type>functional</type>
+    </dependency>
+  </loseless_decomposition>
+</chase>
