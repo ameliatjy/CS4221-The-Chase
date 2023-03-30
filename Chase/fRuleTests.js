@@ -5,26 +5,25 @@ import { fRule } from './fRUle.js';
 let tableau, FD, updatedTableau;
 
 // test case 1
-// tableau = {
-//         columns: ['A', 'B', 'C', 'D'],
-//         rows: [
-//                 ['a1', 'a2', 'b3', 'b4'],
-//                 ['a1', 'a2', 'b7', 'b8'],
-//                 ['b9', 'b10', 'b11', 'b12'],
-//                 ['b13', 'b14', 'b15', 'b16'],
-//         ]
-// };
-//
-// FD = {
-//         lhs: ['A', 'B'],
-//         rhs: ['C', 'D'],
-//         mvd: false
-// };
-//
-// console.log(fRule);
-//
-// updatedTableau = fRule(tableau, FD);
-//
+tableau = {
+        columns: ['A', 'B', 'C', 'D'],
+        rows: [
+                ['a1', 'a2', 'b3', 'b4'],
+                ['a1', 'a2', 'b7', 'b8'],
+                ['b9', 'b10', 'b11', 'b12'],
+                ['b13', 'b14', 'b15', 'b16'],
+        ]
+};
+
+FD = {
+        lhs: ['A', 'B'],
+        rhs: ['C', 'D'],
+        mvd: false
+};
+
+updatedTableau = fRule(tableau, FD);
+
+// console.log(`Applying FD ${FD.lhs} -> ${FD.rhs} to the tableau:`);
 // console.log(updatedTableau);
 
 
@@ -46,8 +45,8 @@ FD = {
 
 updatedTableau = fRule(tableau, FD);
 
-console.log(`Applying FD ${FD.lhs} -> ${FD.rhs} to the tableau:`);
-console.log(updatedTableau);
+// console.log(`Applying FD ${FD.lhs} -> ${FD.rhs} to the tableau:`);
+// console.log(updatedTableau);
 
 tableau = updatedTableau;
 

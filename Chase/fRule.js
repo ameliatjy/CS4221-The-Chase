@@ -1,3 +1,5 @@
+import { isTableauFormattedCorrectly, isFDFormattedCorrectly } from './helpers.js';
+
 export function fRule(tableau, FD) {
        // check that the tableau is in the correct format, throw an error if not
         if (! isTableauFormattedCorrectly(tableau)) {
@@ -29,7 +31,7 @@ export function fRule(tableau, FD) {
                 }
 
                 // print out current row
-                console.log('current row: ', tableau.rows[i]);
+                // console.log('current row: ', tableau.rows[i]);
 
                 // for each row in the tableau (except this row), check if the values in the indexesToCheck columns match the values in the currentRowValues array
                 // if they do, update the values in the rhs columns 
@@ -47,12 +49,12 @@ export function fRule(tableau, FD) {
                                 relevantValues.push(checkingRow[indexesToCheck[k]]);
                         }
 
-                        console.log('relevant values: ', relevantValues);
+                        // console.log('relevant values: ', relevantValues);
 
                         if (JSON.stringify(relevantValues) === JSON.stringify(currentRowValues)) {
-                                console.log('found a match');
-                                // print out the row that matches 
-                                console.log('matching row: ', tableau.rows[j]);
+                                // console.log('found a match');
+                                // // print out the row that matches 
+                                // console.log('matching row: ', tableau.rows[j]);
 
                                 // update the values in the rhs columns
                                 for (let k = 0; k < FD.rhs.length; k++) {
@@ -64,7 +66,7 @@ export function fRule(tableau, FD) {
                                         }
 
                                         let newValue = updateValues(tableau.rows[i][rhsColumnIndex], tableau.rows[j][rhsColumnIndex]);
-                                        console.log('new value: ', newValue);
+                                        // console.log('new value: ', newValue);
 
                                         // create a new current row and a new checking row
                                         let newCurrentRow = tableau.rows[i];
@@ -92,7 +94,7 @@ export function fRule(tableau, FD) {
                                         }
 
                                         // print out the updated tableau
-                                        console.log('updated tableau: ', updatedTableau);
+                                        // console.log('updated tableau: ', updatedTableau);
 
                                         // set the tableau to the updated tableau
                                         tableau = updatedTableau;
@@ -101,42 +103,47 @@ export function fRule(tableau, FD) {
                 }
         }
         
-        return tableau;
-        // // create a new tableau that does not have any duplicate rows
-        // let newTableau = {
-        //         columns: tableau.columns,
-        //         rows: []
-        // };
-        //
-        // // add the rows to the new tableau
-        // for (let i = 0; i < tableau.rows.length; i++) {
-        //         let currentRow = tableau.rows[i];
-        //         let isDuplicate = false;
-        //
-        //         for (let j = 0; j < newTableau.rows.length; j++) {
-        //                 // print out rows that I am comparing
-        //                 console.log('comparing: ', currentRow, newTableau.rows[j]);
-        //                 if (JSON.stringify(currentRow) === JSON.stringify(newTableau.rows[j])) {
-        //                         isDuplicate = true;
-        //                         break;
-        //                 }
-        //         }
-        //
-        //         if (! isDuplicate) {
-        //                 newTableau.rows.push(currentRow);
-        //         }
-        // }
-        //
-        // return newTableau;
-
+        return removeDuplicateRows(tableau);
 }
+
+function removeDuplicateRows(tableau) {
+        // create a new tableau without duplicate rows and return it
+        let newTableau = {
+                columns: tableau.columns,
+                rows: []
+        };
+
+        // add the first row to the new tableau
+        newTableau.rows.push(tableau.rows[0]);
+
+        // for each row in the tableau, check if it is already in the new tableau
+        // if it is not, add it to the new tableau
+        // if it is, skip it
+        for (let i = 1; i < tableau.rows.length; i++) {
+                let rowToAdd = tableau.rows[i];
+                let rowAlreadyExists = false;
+
+                for (let j = 0; j < newTableau.rows.length; j++) {
+                        if (JSON.stringify(rowToAdd) === JSON.stringify(newTableau.rows[j])) {
+                                rowAlreadyExists = true;
+                        }
+                }
+
+                if (! rowAlreadyExists) {
+                        newTableau.rows.push(rowToAdd);
+                }
+        }
+
+        return newTableau;
+}
+
 
 function updateValues(valueOne, valueTwo) {
         // distinguished variables: a with subscript, e.g. a1, a2, a3, ...
         // non-distinguished variables: b with subscript, e.g. b1, b2, b3, ...
 
         // if both valueOne and valueTwo are distiguished variables, return the distinguished variable that has the lowest subscript
-        console.log(valueOne, valueTwo);
+        // console.log(valueOne, valueTwo);
         if (valueOne[0] === 'a' && valueTwo[0] === 'a') {
                 let valueOneSubscript = valueOne.slice(1);
                 let valueTwoSubscript = valueTwo.slice(1);
@@ -161,28 +168,4 @@ function updateValues(valueOne, valueTwo) {
                         return valueTwo;
                 }
         }
-}
-
-function isTableauFormattedCorrectly(tableau) {
-        if (!tableau.columns || !tableau.rows) {
-                return false;
-        }
-
-        if (tableau.columns.length !== tableau.rows[0].length) {
-                return false;
-        }
-
-        return true;
-}
-
-function isFDFormattedCorrectly(FD) {
-        if (!FD.lhs || !FD.rhs) {
-                return false;
-        }
-
-        if (FD.mvd) {
-                return false;
-        }
-
-        return true;
 }

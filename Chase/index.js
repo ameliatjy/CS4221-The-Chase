@@ -1,2 +1,2 @@
-// import './fRuleTests.js';
-import './jRuleTests.js';
+import './fRuleTests.js';
+// import './jRuleTests.js';
