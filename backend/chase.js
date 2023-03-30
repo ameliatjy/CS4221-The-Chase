@@ -1,4 +1,13 @@
-import { ENTAILMENT, MINIMAL_COVER, PROJECTED_DEPENDENCIES, TEST_DEPENDENCY_PRESERVATION } from "./global"
+// constants for the different chase tasks
+const TASK_ENTAILMENT = 1;
+const TASK_LOSSLESS_DECOMPOSITION = 2;
+const TASK_PROJECTED_DEPENDENCIES = 3;
+const TASK_MINIMAL_COVER = 4;
+const TASK_TEST_DEPENDENCY_PRESERVATION = 5;
+
+// constants for the chase types
+const TYPE_SIMPLE_CHASE = 1;
+const TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE = 2;
 
 /**
  * This function runs the chase algorithm.
@@ -6,30 +15,31 @@ import { ENTAILMENT, MINIMAL_COVER, PROJECTED_DEPENDENCIES, TEST_DEPENDENCY_PRES
  * @param {Object} relation   Table relation.
  * @param {Object} fds        Array of functional dependencies.
  * @param {Number} task       Task to run chase algorithm for.
+ * @param {Number} type       Type of chase to run.
  * @param {Object} otherInfo  Additional information required for each task.
- *                            For task ENTAILMENT, dependency to chase for.
- *                            For task LOSSLESS_DECOMPOSITION, table decomposition schemas.
- *                            For task PROJECTED_DEPENDENCIES, subset of relation.
- *                            For task MINIMAL_COVER, null.
- *                            For task TEST_DEPENDENCY_PRESERVATION, schemas of the decomposed fragments.
+ *                            For task TASK_ENTAILMENT, dependency to chase for.
+ *                            For task TASK_LOSSLESS_DECOMPOSITION, table decomposition schemas.
+ *                            For task TASK_PROJECTED_DEPENDENCIES, subset of relation.
+ *                            For task TASK_MINIMAL_COVER, null.
+ *                            For task TASK_TEST_DEPENDENCY_PRESERVATION, schemas of the decomposed fragments.
  * 
  * @return {Object} Result of chase and array of tableau state at each step of chase.
  */
-export function chase(relation, fds, task, otherInfo) {
+function chase(relation, fds, task, type, otherInfo) {
   switch (task) {
-    case ENTAILMENT:
+    case TASK_ENTAILMENT:
       chaseEntailment();
       break;
-    case LOSSLESS_DECOMPOSITION:
+    case TASK_LOSSLESS_DECOMPOSITION:
       chaseLosslessDecomposition();
       break;
-    case PROJECTED_DEPENDENCIES:
+    case TASK_PROJECTED_DEPENDENCIES:
       chaseProjectedDependencies();
       break;
-    case MINIMAL_COVER:
+    case TASK_MINIMAL_COVER:
       chaseMinimalCover();
       break;
-    case TEST_DEPENDENCY_PRESERVATION:
+    case TASK_TEST_DEPENDENCY_PRESERVATION:
       chaseTestDependencyPreservation();
       break;
     default:

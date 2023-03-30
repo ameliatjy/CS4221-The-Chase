@@ -1,76 +1,95 @@
-const task = TASK_ENTAILMENT
+const task = TASK_PROJECTED_DEPENDENCIES
 
 /**
  * TEST CASE 1
- * Expected: True
+ * Expected: A->B, B->C
  */
 const relation1 = ['A', 'B', 'C', 'D'];
 const fds1 = [
   {
     lhs: ['A'],
-    rhs: ['B', 'C'],
-    mvd: true
+    rhs: ['B'],
+    mvd: false
   },
   {
-    lhs: ['D'],
+    lhs: ['B'],
     rhs: ['C'],
     mvd: false
+  },
+  {
+    lhs: ['C', 'D'],
+    rhs: ['A'],
+    mvd: true
   }
 ]
 const otherInfo1 = {
-  lhs: ['A'],
-  rhs: ['C'],
-  mvd: false 
+  projection: ['A', 'B', 'C']
 }
 chase(relation1, fds1, task, TYPE_SIMPLE_CHASE, otherInfo1)
 chase(relation1, fds1, task, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, otherInfo1)
 
 /**
  * TEST CASE 2
- * Expected: True
+ * Expected: A->B, B->C, CD->->A
  */
-const relation2 = ['A', 'B', 'C', 'D'];
+const relation2 = ['A', 'B', 'C', 'D', 'E'];
 const fds2 = [
   {
     lhs: ['A'],
     rhs: ['B'],
-    mvd: true
+    mvd: false
   },
   {
     lhs: ['B'],
     rhs: ['C'],
+    mvd: false
+  },
+  {
+    lhs: ['D'],
+    rhs: ['E'],
+    mvd: false
+  },
+  {
+    lhs: ['C', 'D'],
+    rhs: ['A'],
     mvd: true
   }
 ]
 const otherInfo2 = {
-  lhs: ['A'],
-  rhs: ['C'],
-  mvd: true 
+  projection: ['A', 'B', 'C']
 }
 chase(relation2, fds2, task, TYPE_SIMPLE_CHASE, otherInfo2)
 chase(relation2, fds2, task, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, otherInfo2)
 
 /**
  * TEST CASE 3
- * Expected: False
+ * Expected: A->B, B->E
  */
-const relation3 = ['A', 'B', 'C', 'D'];
+const relation3 = ['A', 'B', 'C', 'D', 'E'];
 const fds3 = [
   {
     lhs: ['A'],
-    rhs: ['B', 'C'],
-    mvd: true
+    rhs: ['B'],
+    mvd: false
+  },
+  {
+    lhs: ['B'],
+    rhs: ['C'],
+    mvd: false
   },
   {
     lhs: ['C', 'D'],
-    rhs: ['B'],
+    rhs: ['A'],
+    mvd: true
+  },
+  {
+    lhs: ['C'],
+    rhs: ['E'],
     mvd: false
   }
 ]
 const otherInfo3 = {
-  lhs: ['A'],
-  rhs: ['B'],
-  mvd: false 
+  projection: ['A', 'B', 'E']
 }
 chase(relation3, fds3, task, TYPE_SIMPLE_CHASE, otherInfo3)
 chase(relation3, fds3, task, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, otherInfo3)
