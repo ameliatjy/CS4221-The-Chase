@@ -1,4 +1,4 @@
-const task = MINIMAL_COVER
+const task = TASK_MINIMAL_COVER
 const otherInfo = null
 
 /**
@@ -23,7 +23,8 @@ const fds1 = [
     mvd: false
   }
 ]
-chase(relation1, fds1, task, otherInfo)
+chase(relation1, fds1, task, TYPE_SIMPLE_CHASE, otherInfo)
+chase(relation1, fds1, task, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, otherInfo)
 
 /**
  * TEST CASE 2
@@ -52,7 +53,8 @@ const fds2 = [
     mvd: true
   }
 ]
-chase(relation2, fds2, task, otherInfo)
+chase(relation2, fds2, task, TYPE_SIMPLE_CHASE, otherInfo)
+chase(relation2, fds2, task, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, otherInfo)
 
 /**
  * TEST CASE 3
@@ -76,4 +78,5 @@ const fds3 = [
     mvd: true
   }
 ]
-chase(relation3, fds3, task, otherInfo)
+chase(relation3, fds3, task, TYPE_SIMPLE_CHASE, otherInfo)
+chase(relation3, fds3, task, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, otherInfo)

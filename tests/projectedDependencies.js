@@ -1,4 +1,4 @@
-const task = PROJECTED_DEPENDENCIES
+const task = TASK_PROJECTED_DEPENDENCIES
 
 /**
  * TEST CASE 1
@@ -25,7 +25,8 @@ const fds1 = [
 const otherInfo1 = {
   projection: ['A', 'B', 'C']
 }
-chase(relation1, fds1, task, otherInfo1)
+chase(relation1, fds1, task, TYPE_SIMPLE_CHASE, otherInfo1)
+chase(relation1, fds1, task, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, otherInfo1)
 
 /**
  * TEST CASE 2
@@ -57,7 +58,8 @@ const fds2 = [
 const otherInfo2 = {
   projection: ['A', 'B', 'C']
 }
-chase(relation2, fds2, task, otherInfo2)
+chase(relation2, fds2, task, TYPE_SIMPLE_CHASE, otherInfo2)
+chase(relation2, fds2, task, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, otherInfo2)
 
 /**
  * TEST CASE 3
@@ -89,4 +91,5 @@ const fds3 = [
 const otherInfo3 = {
   projection: ['A', 'B', 'E']
 }
-chase(relation3, fds3, task, otherInfo3)
+chase(relation3, fds3, task, TYPE_SIMPLE_CHASE, otherInfo3)
+chase(relation3, fds3, task, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, otherInfo3)

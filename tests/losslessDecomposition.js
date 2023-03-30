@@ -1,4 +1,4 @@
-const task = LOSSLESS_DECOMPOSITION
+const task = TASK_LOSSLESS_DECOMPOSITION
 
 /**
  * TEST CASE 1
@@ -29,7 +29,8 @@ const otherInfo1 = {
     ['A', 'D']
   ] 
 }
-chase(relation1, fds1, task, otherInfo1)
+chase(relation1, fds1, task, TYPE_SIMPLE_CHASE, otherInfo1)
+chase(relation1, fds1, task, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, otherInfo1)
 
 /**
  * TEST CASE 2
@@ -65,7 +66,8 @@ const otherInfo2 = {
     ['B', 'D']
   ] 
 }
-chase(relation2, fds2, task, otherInfo2)
+chase(relation2, fds2, task, TYPE_SIMPLE_CHASE, otherInfo2)
+chase(relation2, fds2, task, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, otherInfo2)
 
 /**
  * TEST CASE 3
@@ -112,4 +114,5 @@ const otherInfo3 = {
     ['E', 'G']
   ] 
 }
-chase(relation3, fds3, task, otherInfo3)
+chase(relation3, fds3, task, TYPE_SIMPLE_CHASE, otherInfo3)
+chase(relation3, fds3, task, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, otherInfo3)
