@@ -28,6 +28,11 @@ export function jRule(tableau, JD) {
         for (let i = 0; i < tableau.columns.length; i++) {
                 let currentColumn = tableau.columns[i];
 
+                // if rowsToJoin is empty, return the original tableau
+                if (rowsToJoin.length === 0) {
+                        return tableau;
+                }
+
                 // is the current column common to both relation schemes? if yes take the value from either row of the rows to join
                 // is the current column from the first relation scheme? if yes, take the value from the first row of the rows to join
                 // is the current column from the second relation scheme? if yes, take the value from the second row of the rows to join
