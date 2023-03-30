@@ -1,3 +1,5 @@
+import { convertMVDToFragments } from './helpers.js';
+
 export function setupTableauForRelationSchemes(relation, relationSchemes) {
         // note that relation is an array of column names
         // set distinguished variable count to 1
@@ -34,6 +36,7 @@ export function setupTableauForRelationSchemes(relation, relationSchemes) {
         return tableau;
 }
 
+// TODO: Looks like this is the setup for "Simple Chase" that Prof was talking about. Remember to create another setup, where the first row is distinguished
 export function setupTableauForChasingFD(relation, FD) {
         // note that relation is an array of column names
         // set non-distinguished variable count to 1
@@ -66,26 +69,7 @@ export function setupTableauForChasingFD(relation, FD) {
 }
 
 export function setupTableauForChasingMVD(relation, MVD) {
-        // note that relation is an array of column names
-
-        // convert the MVD to a JD
-        // let X be MVD.lhs
-        // let Y be MVD.rhs
-        // let Z be the columns in relation that are not in X or Y
-        // let the JD be *[[X,Y], [X,Z]]
-        // Create an array of fragments and put XY and XZ in it
-
-        let X = MVD.lhs;
-        let Y = MVD.rhs;
-        let Z = [];
-        for (let i = 0; i < relation.length; i++) {
-                let currentColumn = relation[i];
-                if (!X.includes(currentColumn) && !Y.includes(currentColumn)) {
-                        Z.push(currentColumn);
-                }
-        }
-
-        let fragments = [[...X, ...Y], [...X, ...Z]];
+        let fragments = convertMVDToFragments(relation, MVD);
 
         // use setupTableauForRelationSchemes to create a tableau for the JD
         return setupTableauForRelationSchemes(relation, fragments);

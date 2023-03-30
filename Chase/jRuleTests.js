@@ -1,4 +1,5 @@
 import { jRule } from './jRule.js';
+import { prettyPrintJD } from './helpers.js';
 
 let tableau, JD, updatedTableau;
 
@@ -62,28 +63,3 @@ updatedTableau = jRule(tableau, JD);
 
 console.log(`Applying JD ${prettyPrintJD(JD)} to the tableau:`);
 console.log(updatedTableau);
-
-
-function prettyPrintJD(JD) {
-        // take in an object that has relationSchemes as a property with an array of arrays where each array reprsents a fragment
-        // return a string that looks like *[fragment1, fragment2, ...]
-
-        let JDString = '*[';
-        for (let i = 0; i < JD.relationSchemes.length; i++) {
-                JDString += '[';
-                for (let j = 0; j < JD.relationSchemes[i].length; j++) {
-                        JDString += JD.relationSchemes[i][j];
-                        if (j < JD.relationSchemes[i].length - 1) {
-                                JDString += ', ';
-                        }
-                }
-                JDString += ']';
-                if (i < JD.relationSchemes.length - 1) {
-                        JDString += ', ';
-                }
-        }
-
-        JDString += ']';
-
-        return JDString;
-}
