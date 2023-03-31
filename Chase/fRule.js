@@ -66,7 +66,7 @@ export function fRule(tableau, FD) {
                                         }
 
                                         let newValue = updateValues(tableau.rows[i][rhsColumnIndex], tableau.rows[j][rhsColumnIndex]);
-                                        // console.log('new value: ', newValue);
+                                        let changedValue = newValue === tableau.rows[i][rhsColumnIndex] ? tableau.rows[j][rhsColumnIndex] : tableau.rows[i][rhsColumnIndex];
 
                                         // create a new current row and a new checking row
                                         let newCurrentRow = tableau.rows[i];
@@ -97,13 +97,36 @@ export function fRule(tableau, FD) {
                                         // console.log('updated tableau: ', updatedTableau);
 
                                         // set the tableau to the updated tableau
-                                        tableau = updatedTableau;
+                                        tableau = updateTableauWithNewValue(updatedTableau, changedValue, newValue);
                                 }
                         }
                 }
         }
         
         return removeDuplicateRows(tableau);
+}
+
+function updateTableauWithNewValue(tableau, oldValue, newValue) {
+
+        let newTableau = {
+                columns: tableau.columns,
+                rows: []
+        };
+
+        // for each row in the tableau, update the value and add it to the new tableau
+        for (let i = 0; i < tableau.rows.length; i++) {
+                let newRow = tableau.rows[i];
+
+                for (let j = 0; j < newRow.length; j++) {
+                        if (newRow[j] === oldValue) {
+                                newRow[j] = newValue;
+                        }
+                }
+
+                newTableau.rows.push(newRow);
+        }
+        
+        return newTableau;
 }
 
 function removeDuplicateRows(tableau) {
@@ -143,7 +166,6 @@ function updateValues(valueOne, valueTwo) {
         // non-distinguished variables: b with subscript, e.g. b1, b2, b3, ...
 
         // if both valueOne and valueTwo are distiguished variables, return the distinguished variable that has the lowest subscript
-        // console.log('values: ', valueOne, valueTwo);
         
         let isValueOneDistiguished = valueOne[0] === 'a';
         let isValueTwoDistiguished = valueTwo[0] === 'a';

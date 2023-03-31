@@ -17,14 +17,45 @@ export function jRule(tableau, JD) {
                 return jRule(tableau, newJD);
         }
 
-
         // step 2: find the common attributes between the first two relation schemes. Once that is done, find rows in the tableau which have the same values in these common attributes. Store these pair of rows in an array.
         let commonAttributes = getCommonAttributes(JD.relationSchemes[0], JD.relationSchemes[1]);
+
         let rowsToJoin = getRowsToJoin(tableau, commonAttributes);
 
+        let newRow = joinRows(tableau, commonAttributes, rowsToJoin, JD); 
+
+        // if the newRow is in the tableau, swap the order of rowsToJoin and call joinRows again
+        for (let i = 0; i < tableau.rows.length; i++) { 
+                if (JSON.stringify(tableau.rows[i]) === JSON.stringify(newRow)) {
+                        rowsToJoin = [rowsToJoin[1], rowsToJoin[0]];
+                        newRow = joinRows(tableau, commonAttributes, rowsToJoin, JD);
+
+                        // if the newRow is still in the tableau, return the original tableau
+                        for (let j = 0; j < tableau.rows.length; j++) {
+                                if (JSON.stringify(tableau.rows[j]) === JSON.stringify(newRow)) {
+                                        return tableau;
+                                }
+                        }
+                }
+        }
+
+        // step 4: create a new tableau that has the new row added to it
+        return {
+                columns: tableau.columns,
+                rows: [
+                        ...tableau.rows,
+                        newRow,
+                ]
+        };
+        
+}
+
+function joinRows(tableau, commonAttributes, rowsToJoin, JD) {
         // step 3: for each pair of rows, join them together and add the result to the tableau
         // to join the rows create an empty row. For each column in the first fragment, get the values from the first row and fill the empty row in the appropriate columns. For each column in the second fragement, get the values from the second row and fill the empty row in the appropriate column
+
         let newRow = [];
+
         for (let i = 0; i < tableau.columns.length; i++) {
                 let currentColumn = tableau.columns[i];
 
@@ -54,18 +85,9 @@ export function jRule(tableau, JD) {
 
                         continue;
                 } 
-        }
+        }        
 
-
-        // step 4: create a new tableau that has the new row added to it
-        return {
-                columns: tableau.columns,
-                rows: [
-                        ...tableau.rows,
-                        newRow,
-                ]
-        };
-        
+        return newRow;
 }
 
 function getRowsToJoin(tableau, commonAttributes) {

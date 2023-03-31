@@ -23,7 +23,7 @@ export function chaseLosslessDecomposition(relation, C, relationSchemes) {
 
         let iterations = 0;
         let tableauChanged = true;
-        while (iterations < 3) {
+        while (tableauChanged && iterations < 7) {
                 tableauChanged = false;
 
                 for (let i = 0; i < processedC.length; i++) {
@@ -70,9 +70,43 @@ export function chaseLosslessDecomposition(relation, C, relationSchemes) {
         console.log('tableau', tableau);
         
         // return { isLossless: true, steps: [], finalTableau: tableau };
+        let isLossless = checkFinalTableauIfLossless(tableau);
+
         return {
-                isLossless: true,
+                result: isLossless,
                 steps,
                 finalTableau: tableau,
         };
+}
+
+function checkFinalTableauIfLossless(tableau) {
+        // tableau has columns and rows
+        // return true if we find at least one row where all the values in the row array are strings that start with 'a'
+
+        let hasRowOfDistinguishedVariables = false;
+
+        for (let i = 0; i < tableau.rows.length; i++) {
+                let row = tableau.rows[i];
+
+                let hasDistinguishedVariable = true;
+
+                for (let j = 0; j < row.length; j++) {
+                        let value = row[j];
+
+                        if (typeof value === 'string' && value.startsWith('a')) {
+                                continue;
+                        }
+
+                        hasDistinguishedVariable = false;
+                        break;
+                }
+
+                if (hasDistinguishedVariable) {
+                        hasRowOfDistinguishedVariables = true;
+                        break;
+                }
+
+        }
+
+        return hasRowOfDistinguishedVariables;
 }

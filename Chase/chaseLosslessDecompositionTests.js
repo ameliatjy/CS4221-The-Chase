@@ -38,9 +38,6 @@ relationSchemes = [
 console.log(`Applying chaseLosslessDecomposition to relation ${relation} with C = ${C} and relationSchemes = ${relationSchemes}:`);
 let result = chaseLosslessDecomposition(relation, C, relationSchemes);
 
-// for each step in result.steps, create an element that has a paragraph with innerHTML = 'Step #{stepNumebr} :' + result.steps[i].description  and create table where the header is result.steps[i].tableau.columns and the rows are result.steps[i].tableau.rows
-// render this elements inside div id="output"
-
 for (let i = 0; i < result.steps.length; i++) {
         let stepNumber = i + 1;
         let stepDescription = result.steps[i].description;
@@ -68,3 +65,30 @@ for (let i = 0; i < result.steps.length; i++) {
         stepElement.appendChild(stepTableElement);
         document.getElementById('output').appendChild(stepElement);
 }
+
+let resultElement = document.createElement('div');
+resultElement.innerHTML = `<p>Is lossless? ${result.result ? 'Yes' : 'No'}</p>`;
+let resultTableElement = document.createElement('table');
+let resultTableHeader = document.createElement('tr');
+for (let j = 0; j < result.finalTableau.columns.length; j++) {
+        let resultTableHeaderCell = document.createElement('th');
+        resultTableHeaderCell.innerHTML = result.finalTableau.columns[j];
+        resultTableHeader.appendChild(resultTableHeaderCell);
+}
+resultTableElement.appendChild(resultTableHeader);
+for (let j = 0; j < result.finalTableau.rows.length; j++) {
+        let resultTableRow = document.createElement('tr');
+        for (let k = 0; k < result.finalTableau.rows[j].length; k++) {
+                let resultTableRowCell = document.createElement('td');
+                resultTableRowCell.innerHTML = result.finalTableau.rows[j][k];
+                if (result.finalTableau.rows[j][k].startsWith('a')) {
+                        resultTableRowCell.style.backgroundColor = 'yellow';
+                }
+                resultTableRow.appendChild(resultTableRowCell);
+        }
+        resultTableElement.appendChild(resultTableRow);
+}
+resultElement.appendChild(resultTableElement);
+document.getElementById('output').appendChild(resultElement);
+
+
