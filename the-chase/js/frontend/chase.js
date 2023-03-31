@@ -1,13 +1,4 @@
-// constants for the different chase tasks
-const TASK_ENTAILMENT = 1;
-const TASK_LOSSLESS_DECOMPOSITION = 2;
-const TASK_PROJECTED_DEPENDENCIES = 3;
-const TASK_MINIMAL_COVER = 4;
-const TASK_TEST_DEPENDENCY_PRESERVATION = 5;
-
-// constants for the chase types
-const TYPE_SIMPLE_CHASE = 1;
-const TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE = 2;
+import { TASK_ENTAILMENT, TASK_LOSSLESS_DECOMPOSITION, TASK_PROJECTED_DEPENDENCIES, TASK_MINIMAL_COVER, TASK_TEST_DEPENDENCY_PRESERVATION } from "./global.js"
 
 /**
  * This function runs the chase algorithm.
@@ -15,17 +6,16 @@ const TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE = 2;
  * @param {Object} relation   Table relation.
  * @param {Object} fds        Array of functional dependencies.
  * @param {Number} task       Task to run chase algorithm for.
- * @param {Number} type       Type of chase to run.
  * @param {Object} otherInfo  Additional information required for each task.
- *                            For task TASK_ENTAILMENT, dependency to chase for.
- *                            For task TASK_LOSSLESS_DECOMPOSITION, table decomposition schemas.
- *                            For task TASK_PROJECTED_DEPENDENCIES, subset of relation.
- *                            For task TASK_MINIMAL_COVER, null.
- *                            For task TASK_TEST_DEPENDENCY_PRESERVATION, schemas of the decomposed fragments.
+ *                            For task ENTAILMENT, dependency to chase for.
+ *                            For task LOSSLESS_DECOMPOSITION, table decomposition schemas.
+ *                            For task PROJECTED_DEPENDENCIES, subset of relation.
+ *                            For task MINIMAL_COVER, list of functional dependencies.
+ *                            For task TEST_DEPENDENCY_PRESERVATION, schemas of the decomposed fragments.
  * 
  * @return {Object} Result of chase and array of tableau state at each step of chase.
  */
-function chase(relation, fds, task, type, otherInfo) {
+export function chase(relation, fds, task, type, otherInfo) {
   switch (task) {
     case TASK_ENTAILMENT:
       chaseEntailment();
