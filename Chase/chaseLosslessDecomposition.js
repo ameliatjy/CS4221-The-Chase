@@ -1,5 +1,15 @@
 import { setupTableauForRelationSchemes } from './setupTableau.js';
-import { convertMVDsToJDs, isFD, isJD, prettyPrintJD, snapshotOfTableau, checkIfTableauChanged } from './helpers.js';
+
+import { 
+        convertMVDsToJDs, 
+        isFD, 
+        isJD, 
+        prettyPrintJD, 
+        snapshotOfTableau, 
+        checkIfTableauChanged,
+        doesTableauHaveARowOfDistinguishedVariables,
+} from './helpers.js';
+
 import { fRule } from './fRule.js';
 import { jRule } from './jRule.js';
 
@@ -69,43 +79,11 @@ export function chaseLosslessDecomposition(relation, C, relationSchemes) {
         // step 4: return the tableau
         
         // return { isLossless: true, steps: [], finalTableau: tableau };
-        let isLossless = checkFinalTableauIfLossless(tableau);
+        let isLossless = doesTableauHaveARowOfDistinguishedVariables(tableau);
 
         return {
                 result: isLossless,
                 steps,
                 finalTableau: tableau,
         };
-}
-
-function checkFinalTableauIfLossless(tableau) {
-        // tableau has columns and rows
-        // return true if we find at least one row where all the values in the row array are strings that start with 'a'
-
-        let hasRowOfDistinguishedVariables = false;
-
-        for (let i = 0; i < tableau.rows.length; i++) {
-                let row = tableau.rows[i];
-
-                let hasDistinguishedVariable = true;
-
-                for (let j = 0; j < row.length; j++) {
-                        let value = row[j];
-
-                        if (typeof value === 'string' && value.startsWith('a')) {
-                                continue;
-                        }
-
-                        hasDistinguishedVariable = false;
-                        break;
-                }
-
-                if (hasDistinguishedVariable) {
-                        hasRowOfDistinguishedVariables = true;
-                        break;
-                }
-
-        }
-
-        return hasRowOfDistinguishedVariables;
 }

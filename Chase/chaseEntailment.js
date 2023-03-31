@@ -1,13 +1,33 @@
-import { setupTableauForChasingFD, setupTableauForChasingMVD } from './setupTableau.js';
-import { convertMVDsToJDs, isFD, isJD, prettyPrintJD, snapshotOfTableau, convertMVDToFragments } from './helpers.js';
+import { 
+        setupTableauForChasingFDWithSimpleChase, 
+        setupTableauForChasingMVD,
+        setupTableauForChasingFDWithDistinguishedVariables,
+} from './setupTableau.js';
+
+import { 
+        convertMVDsToJDs, 
+        isFD, 
+        isJD, 
+        prettyPrintJD, 
+        snapshotOfTableau, 
+        convertMVDToFragments,
+        doesTableauHaveARowOfDistinguishedVariables,
+} from './helpers.js';
+
 import { fRule } from './fRule.js';
+
 import { jRule } from './jRule.js';
+
 import { chaseLosslessDecomposition } from './chaseLosslessDecomposition.js';
 
 export function chaseEntailmentSimpleChaseFD(relation, C, FD) {
         // step 1: setup the tableau for the relation based on the FD
-        let tableau = setupTableauForChasingFD(relation, FD);
+        let tableau = setupTableauForChasingFDWithSimpleChase(relation, FD);
         let steps = [];
+        steps.push({
+                description: `Setup tableau to test if FD ${FD.lhs} -> ${FD.rhs} is implied. Chase FD with simple chase.`,
+                tableau: snapshotOfTableau(tableau),
+        });
         
         let processedC = convertMVDsToJDs(relation, C);
  
@@ -42,6 +62,45 @@ export function chaseEntailmentSimpleChaseFD(relation, C, FD) {
         };
 }
 
+export function chaseEntailmentFDWithDistinguishedVariables(relation, C, FD) {
+        let tableau = setupTableauForChasingFDWithDistinguishedVariables(relation, FD);
+        let steps = [];
+        steps.push({
+                description: `Setup tableau to test if FD ${FD.lhs} -> ${FD.rhs} is implied. Chase FD with distinguished variables.`,
+                tableau: snapshotOfTableau(tableau),
+        });
+
+        let processedC = convertMVDsToJDs(relation, C);
+
+        for (let i = 0; i < processedC.length; i++) {
+                let currentDependency = processedC[i];
+                if (isFD(currentDependency)) {
+                        tableau = fRule(tableau, currentDependency);
+                        steps.push({
+                                description: `Apply F-rule to ${currentDependency.lhs} -> ${currentDependency.rhs}`,
+                                tableau: snapshotOfTableau(tableau),
+                        });
+
+                }
+
+                if (isJD(currentDependency)) {
+                        tableau = jRule(tableau, currentDependency);
+                        steps.push({
+                                description: `Apply J-rule to ${prettyPrintJD(currentDependency)}`,
+                                tableau: snapshotOfTableau(tableau),
+                        });
+                }
+        }
+
+        let result = doesTableauHaveRelevantColumnOfDistinguishedVariables(tableau, FD);
+
+        return {
+                result,
+                steps,
+                finalTableau: snapshotOfTableau(tableau),
+        };
+}
+
 export function chaseEntailmentMVD(relation, C, MVD) {
         // step 1: setup the tableau for the relation based on the MVD
         let tableau = setupTableauForChasingMVD(relation, MVD);
@@ -51,6 +110,25 @@ export function chaseEntailmentMVD(relation, C, MVD) {
         let relationSchemes = convertMVDToFragments(relation, MVD);
 
         return chaseLosslessDecomposition(relation, processedC, relationSchemes);
+}
+
+function doesTableauHaveRelevantColumnOfDistinguishedVariables(tableau, FD) {
+        let relevantColumnIndexes = [];
+        for (let i = 0; i < FD.lhs.length; i++) {
+                relevantColumnIndexes.push(tableau.columns.indexOf(FD.lhs[i]));
+        }
+
+        for (let i = 0; i < tableau.rows.length; i++) {
+                let currentRow = tableau.rows[i];
+                for (let j = 0; j < relevantColumnIndexes.length; j++) {
+                        // if return false if the value is of the form b1, b2, b3, etc.
+                        if (currentRow[relevantColumnIndexes[j]].includes('b')) {
+                                return false;
+                        }
+                }
+        }
+
+        return true;
 }
 
 function checkSimpleChaseResult(tableau, FD) {

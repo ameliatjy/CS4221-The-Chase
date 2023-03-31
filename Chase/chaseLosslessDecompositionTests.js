@@ -38,4 +38,5 @@ relationSchemes = [
 
 console.log(`Applying chaseLosslessDecomposition to relation ${relation} with C = ${C} and relationSchemes = ${relationSchemes}:`);
 let result = chaseLosslessDecomposition(relation, C, relationSchemes);
+prettyPrintResult(result, document.getElementById('output'), `Applying chaseLosslessDecomposition to relation ${relation} with C = ${prettyPrintC(C)} and relationSchemes = ${relationSchemes}:`);
 

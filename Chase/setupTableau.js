@@ -34,7 +34,7 @@ export function setupTableauForRelationSchemes(relation, relationSchemes) {
 }
 
 // TODO: Looks like this is the setup for "Simple Chase" that Prof was talking about. Remember to create another setup, where the first row is distinguished
-export function setupTableauForChasingFD(relation, FD) {
+export function setupTableauForChasingFDWithSimpleChase(relation, FD) {
         // note that relation is an array of column names
         // set non-distinguished variable count to 1
         let nonDistinguishedVariableCount = 1;
@@ -62,6 +62,38 @@ export function setupTableauForChasingFD(relation, FD) {
         }
 
         // return the tableau
+        return tableau;
+}
+
+export function setupTableauForChasingFDWithDistinguishedVariables(relation, FD) {
+        let nonDistinguishedVariableCount = 1;
+
+        let tableau = {
+                columns: relation,
+                rows: [],
+        };
+
+        // create the first row with all distinguished variables
+        let firstRow = [];
+        for (let i = 0; i < relation.length; i++) {
+                firstRow.push(`a${i + 1}`);
+        }
+
+        tableau.rows.push(firstRow);
+
+        tableau.rows.push([]);
+
+        // for the second row, add a distinguished variable to the columns in the LHS of the FD
+        for (let i = 0; i < relation.length; i++) {
+                let currentColumn = relation[i];
+                if (FD.lhs.includes(currentColumn)) {
+                        tableau.rows[1].push(`a${i + 1}`);
+                } else {
+                        tableau.rows[1].push(`b${nonDistinguishedVariableCount}`);
+                        nonDistinguishedVariableCount++;
+                }
+        }
+
         return tableau;
 }
 
