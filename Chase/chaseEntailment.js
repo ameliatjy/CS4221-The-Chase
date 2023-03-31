@@ -1,11 +1,12 @@
 import { setupTableauForChasingFD, setupTableauForChasingMVD } from './setupTableau.js';
-import { convertMVDsToJDs, isFD, isJD, prettyPrintJD } from './helpers.js';
+import { convertMVDsToJDs, isFD, isJD, prettyPrintJD, snapshotOfTableau } from './helpers.js';
 import { fRule } from './fRule.js';
 import { jRule } from './jRule.js';
 
-export function chaseEntailmentFD(relation, C, FD) {
+export function chaseEntailmentSimpleChaseFD(relation, C, FD) {
         // step 1: setup the tableau for the relation based on the FD
         let tableau = setupTableauForChasingFD(relation, FD);
+        let steps = [];
         
         let processedC = convertMVDsToJDs(relation, C);
  
@@ -14,15 +15,30 @@ export function chaseEntailmentFD(relation, C, FD) {
                 let currentDependency = processedC[i];
                 if (isFD(currentDependency)) {
                         tableau = fRule(tableau, currentDependency);
+                        steps.push({
+                                description: `Apply F-rule to ${currentDependency.lhs} -> ${currentDependency.rhs}`,
+                                tableau: snapshotOfTableau(tableau),
+                        });
+
                 }
 
                 if (isJD(currentDependency)) {
                         tableau = jRule(tableau, currentDependency);
+                        steps.push({
+                                description: `Apply J-rule to ${prettyPrintJD(currentDependency)}`,
+                                tableau: snapshotOfTableau(tableau),
+                        });
                 }
         }
+        
+        let result = checkSimpleChaseResult(tableau, FD);
 
         // step 3: return the tableau
-        return tableau;
+        return {
+                result,
+                steps,
+                finalTableau: snapshotOfTableau(tableau),
+        };
 }
 
 export function chaseEntailmentMVD(relation, C, MVD) {
@@ -34,3 +50,92 @@ export function chaseEntailmentMVD(relation, C, MVD) {
         return chaseLosslessDecomposition(relation, processedC, tableau);
 }
 
+function checkSimpleChaseResult(tableau, FD) {
+        // tableau has columns and rows
+        // FD has lhs, rhs and mvd set to false
+
+        // loop through the tableau.rows and find the rows which have the columns in FD.lhs values in common
+        let rowsToCheck = [];
+        
+        for (let i = 0; i < tableau.rows.length; i++) {
+                let indexesToCheck = [];
+                let currentRow = tableau.rows[i];
+
+                for (let j = 0; j < FD.lhs.length; j++) {
+                        indexesToCheck.push(tableau.columns.indexOf(FD.lhs[j]));
+                }
+
+                // store the values stored in the indexesToCheck columns of the current row
+                let currentRowValues = [];
+                for (let j = 0; j < indexesToCheck.length; j++) {
+                        currentRowValues.push(tableau.rows[i][indexesToCheck[j]]);
+                }
+
+                // print out current row
+                // console.log('current row: ', tableau.rows[i]);
+
+                // for each row in the tableau (except this row), check if the values in the indexesToCheck columns match the values in the currentRowValues array
+                // if they do, update the values in the rhs columns 
+                for (let j = 0; j < tableau.rows.length; j++) {
+                        // if this is the current row, skip it
+                        let checkingRow = tableau.rows[j];
+
+                        if (i === j) {
+                                continue;
+                        }
+
+                        let relevantValues = [];
+
+                        for (let k = 0; k < indexesToCheck.length; k++) {
+                                relevantValues.push(checkingRow[indexesToCheck[k]]);
+                        }
+
+                        // console.log('relevant values: ', relevantValues);
+
+                        if (JSON.stringify(relevantValues) === JSON.stringify(currentRowValues)) {
+                                // check if rowsToCheck already contains this pair of rows
+                                let alreadyExists = false;
+
+                                for (let k = 0; k < rowsToCheck.length; k++) {
+                                        if (JSON.stringify(rowsToCheck[k]) === JSON.stringify([currentRow, checkingRow])) {
+                                                alreadyExists = true;
+                                                break;
+                                        }
+
+                                        if (JSON.stringify(rowsToCheck[k]) === JSON.stringify([checkingRow, currentRow])) {
+                                                alreadyExists = true;
+                                                break;
+                                        }
+                                }
+
+                                if (alreadyExists) {
+                                        continue;
+                                }
+
+                                rowsToCheck.push([currentRow, checkingRow]);
+                        }
+
+                }
+        }
+
+        // for each pair of rows, check if the values in the index of the FD.rhs columns match 
+        // if they do, return true
+        // if they don't, return false
+        
+        for (let i = 0; i < rowsToCheck.length; i++) {
+                let indexesToCheck = [];
+                
+                for (let j = 0; j < FD.rhs.length; j++) {
+                        indexesToCheck.push(tableau.columns.indexOf(FD.rhs[j]));
+                }
+
+                for (let j = 0; j < indexesToCheck.length; j++) {
+                        if (rowsToCheck[i][0][indexesToCheck[j]] !== rowsToCheck[i][1][indexesToCheck[j]]) {
+                                return false;
+                        }
+                }
+
+        }
+
+        return true;
+}

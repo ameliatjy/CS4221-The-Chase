@@ -1,6 +1,8 @@
-import { chaseEntailmentFD, chaseEntailmentMVD } from './chaseEntailment.js';
+import { chaseEntailmentSimpleChaseFD, chaseEntailmentMVD } from './chaseEntailment.js';
+import { prettyPrintResult } from './helpers.js';
 
 let relation, C, FD, MVD, JD;
+let outputElement, resultPhrase;
 
 // test case 1
 relation = ['A', 'B', 'C', 'D'];
@@ -21,9 +23,9 @@ FD = {
         mvd: false,
 };
 
-// console.log(`Relation ${relation} with C = ${C}. We are chasing FD = ${FD.lhs} -> ${FD.rhs}:`);
-// console.log(chaseEntailmentFD(relation, C, FD));
-
+outputElement = document.getElementById('output');
+resultPhrase = `Relation ${relation} with C = ${C}. We are chasing FD = ${FD.lhs} -> ${FD.rhs}. So is it entailed? `;
+prettyPrintResult(chaseEntailmentSimpleChaseFD(relation, C, FD), outputElement, resultPhrase);
 
 // test case 2
 relation = ['A', 'B', 'C', 'D'];
@@ -45,6 +47,5 @@ MVD = {
         mvd: true,
 };
 
-console.log(`Relation ${relation} with C = ${C}. We are chasing MVD = ${MVD.lhs} ->> ${MVD.rhs}:`);
-console.log(chaseEntailmentMVD(relation, C, MVD));
-
+// resultPhrase = `Relation ${relation} with C = ${C}. We are chasing MVD = ${MVD.lhs} ->> ${MVD.rhs}. So is it entailed? `;
+// prettyPrintResult(chaseEntailmentMVD(relation, C, MVD), outputElement, resultPhrase);
