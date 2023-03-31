@@ -67,7 +67,6 @@ export function chaseLosslessDecomposition(relation, C, relationSchemes) {
 
 
         // step 4: return the tableau
-        console.log('tableau', tableau);
         
         // return { isLossless: true, steps: [], finalTableau: tableau };
         let isLossless = checkFinalTableauIfLossless(tableau);

@@ -76,30 +76,6 @@ export function isJD(dependency) {
         return true;
 }
 
-export function prettyPrintJD(JD) {
-        // take in an object that has relationSchemes as a property with an array of arrays where each array reprsents a fragment
-        // return a string that looks like *[fragment1, fragment2, ...]
-
-        let JDString = '*[';
-        for (let i = 0; i < JD.relationSchemes.length; i++) {
-                JDString += '[';
-                for (let j = 0; j < JD.relationSchemes[i].length; j++) {
-                        JDString += JD.relationSchemes[i][j];
-                        if (j < JD.relationSchemes[i].length - 1) {
-                                JDString += ', ';
-                        }
-                }
-                JDString += ']';
-                if (i < JD.relationSchemes.length - 1) {
-                        JDString += ', ';
-                }
-        }
-
-        JDString += ']';
-
-        return JDString;
-}
-
 export function convertMVDsToJDs(relation, C) {
         let processedC = [];
 
@@ -137,6 +113,34 @@ export function checkIfTableauChanged(initialTableau, newTableau) {
         }
 
         return false;
+}
+
+/*
+ * PRETTY PRINT 
+*/
+
+export function prettyPrintJD(JD) {
+        // take in an object that has relationSchemes as a property with an array of arrays where each array reprsents a fragment
+        // return a string that looks like *[fragment1, fragment2, ...]
+
+        let JDString = '*[';
+        for (let i = 0; i < JD.relationSchemes.length; i++) {
+                JDString += '[';
+                for (let j = 0; j < JD.relationSchemes[i].length; j++) {
+                        JDString += JD.relationSchemes[i][j];
+                        if (j < JD.relationSchemes[i].length - 1) {
+                                JDString += ', ';
+                        }
+                }
+                JDString += ']';
+                if (i < JD.relationSchemes.length - 1) {
+                        JDString += ', ';
+                }
+        }
+
+        JDString += ']';
+
+        return JDString;
 }
 
 export function prettyPrintResult(result, outputElement, resultPhrase) {
@@ -192,4 +196,36 @@ export function prettyPrintResult(result, outputElement, resultPhrase) {
         }
         resultElement.appendChild(resultTableElement);
         outputElement.appendChild(resultElement);
+}
+
+export function prettyPrintC(C) {
+        // Take in an array C that has FDs, MVDs, and JDs
+        // if FD (means have lhs array, rhs array and mvd is false), return a string: "lhs -> rhs"
+        // if MVD (means have lhs array, rhs array and mvd is true), return a string: "lhs ->> rhs"
+        // if JD (means have relationSchemes array), return a string: "*[fragment1, fragment2, ...]" (use the prettyPrintJD function)
+        // concatenate all of the strings together with a comma and space in between
+
+        let CString = '';
+        for (let i = 0; i < C.length; i++) {
+                if (C[i].mvd) {
+                        CString += prettyPrintMVD(C[i]);
+                } else if (C[i].lhs) {
+                        CString += prettyPrintFD(C[i]);
+                } else {
+                        CString += prettyPrintJD(C[i]);
+                }
+                if (i < C.length - 1) {
+                        CString += ', ';
+                }
+        }
+
+        return CString;
+}
+
+function prettyPrintFD(FD) {
+        return `${FD.lhs} -> ${FD.rhs}`;
+}
+
+function prettyPrintMVD(MVD) {
+        return `${MVD.lhs} ->> ${MVD.rhs}`;
 }

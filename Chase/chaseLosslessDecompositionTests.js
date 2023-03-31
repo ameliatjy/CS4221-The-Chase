@@ -1,5 +1,5 @@
 import { chaseLosslessDecomposition } from './chaseLosslessDecomposition.js';
-import { prettyPrintResult } from './helpers.js';
+import { prettyPrintResult, prettyPrintC } from './helpers.js';
 
 let relation, C, relationSchemes;
 

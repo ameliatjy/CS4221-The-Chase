@@ -21,31 +21,61 @@ export function jRule(tableau, JD) {
         let commonAttributes = getCommonAttributes(JD.relationSchemes[0], JD.relationSchemes[1]);
 
         let rowsToJoin = getRowsToJoin(tableau, commonAttributes);
+        
+        // while we have not added a row to the tableau or we have looked at all the rows in the tableau
+        // find a pair of rows to join
+        // join the rows
+        // if the new row is not in the tableau, add it to the tableau
+        // if the new row is in the tableau, swap the order of the rows to join and try again
+        // if the new row is still in the tableau, continue to the next pair of rows to join
+        // if we have looked at all the rows in the tableau, return the tableaa
+        
+        let addedRow = false;
+        let rows = [...tableau.rows];
 
-        let newRow = joinRows(tableau, commonAttributes, rowsToJoin, JD); 
+        while (! addedRow && rowsToJoin.length > 0) {
+                // join the rows
+                // if the new row is not in the tableau, add it to the tableau
+                // if the new row is in the tableau, swap the order of the rows to join and try again
+                // if the new row is still in the tableau, continue to the next pair of rows to join
+                // if we have looked at all the rows in the tableau, return the tableaa
 
-        // if the newRow is in the tableau, swap the order of rowsToJoin and call joinRows again
-        for (let i = 0; i < tableau.rows.length; i++) { 
-                if (JSON.stringify(tableau.rows[i]) === JSON.stringify(newRow)) {
-                        rowsToJoin = [rowsToJoin[1], rowsToJoin[0]];
-                        newRow = joinRows(tableau, commonAttributes, rowsToJoin, JD);
+                let currentPairOfRowsToJoin = rowsToJoin.shift();
 
-                        // if the newRow is still in the tableau, return the original tableau
-                        for (let j = 0; j < tableau.rows.length; j++) {
-                                if (JSON.stringify(tableau.rows[j]) === JSON.stringify(newRow)) {
-                                        return tableau;
-                                }
+                let firstOrderJoinRow = joinRows(tableau, commonAttributes, currentPairOfRowsToJoin, JD);
+                currentPairOfRowsToJoin = [currentPairOfRowsToJoin[1], currentPairOfRowsToJoin[0]];
+                let secondOrderJoinRow = joinRows(tableau, commonAttributes, currentPairOfRowsToJoin, JD);
+
+                let isFirstOrderJoinRowInTableau = false;
+                let isSecondOrderJoinRowInTableau = false;
+
+                for (let j = 0; j < tableau.rows.length; j++) {
+                        if (JSON.stringify(tableau.rows[j]) === JSON.stringify(firstOrderJoinRow)) {
+                                isFirstOrderJoinRowInTableau = true;
+                        }
+
+                        if (JSON.stringify(tableau.rows[j]) === JSON.stringify(secondOrderJoinRow)) {
+                                isSecondOrderJoinRowInTableau = true;
                         }
                 }
-        }
+
+                if (! isFirstOrderJoinRowInTableau) {
+                        rows.push(firstOrderJoinRow);
+                        addedRow = true;
+                }
+
+                if (! isSecondOrderJoinRowInTableau) {
+                        rows.push(secondOrderJoinRow);
+                        addedRow = true;
+                }
+
+        }       
+
 
         // step 4: create a new tableau that has the new row added to it
         return {
                 columns: tableau.columns,
-                rows: [
-                        ...tableau.rows,
-                        newRow,
-                ]
+                rows,
         };
         
 }
@@ -120,10 +150,12 @@ function getRowsToJoin(tableau, commonAttributes) {
 
                         if (arraysAreEqual(currentRowValues, nextRowValues)) {
                                 // NOTE: this may pose problems if more than one pair of rows are found to be joinable. Choosing to ignore this case.
-                                rowsToJoin.push(currentRow);
-                                rowsToJoin.push(nextRow);
 
-                                break;
+                                // rowsToJoin can have many arrays
+                                // check that [currentRow, nextRow] or [nextRow, currentRow] is not already in rowsToJoin
+                                if ((! arrayIncludesArray(rowsToJoin, [currentRow, nextRow])) && (! arrayIncludesArray(rowsToJoin, [nextRow, currentRow]))) {
+                                        rowsToJoin.push([currentRow, nextRow]);
+                                }
                         }
 
                 }
@@ -132,6 +164,16 @@ function getRowsToJoin(tableau, commonAttributes) {
 
         return rowsToJoin;
 
+}
+
+function arrayIncludesArray(array, arrayToCheck) {
+        for (let i = 0; i < array.length; i++) {
+                if (arraysAreEqual(array[i], arrayToCheck)) {
+                        return true;
+                }
+        }
+
+        return false;
 }
 
 function arraysAreEqual(array1, array2) {

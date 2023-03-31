@@ -1,7 +1,8 @@
 import { setupTableauForChasingFD, setupTableauForChasingMVD } from './setupTableau.js';
-import { convertMVDsToJDs, isFD, isJD, prettyPrintJD, snapshotOfTableau } from './helpers.js';
+import { convertMVDsToJDs, isFD, isJD, prettyPrintJD, snapshotOfTableau, convertMVDToFragments } from './helpers.js';
 import { fRule } from './fRule.js';
 import { jRule } from './jRule.js';
+import { chaseLosslessDecomposition } from './chaseLosslessDecomposition.js';
 
 export function chaseEntailmentSimpleChaseFD(relation, C, FD) {
         // step 1: setup the tableau for the relation based on the FD
@@ -46,8 +47,10 @@ export function chaseEntailmentMVD(relation, C, MVD) {
         let tableau = setupTableauForChasingMVD(relation, MVD);
 
         let processedC = convertMVDsToJDs(relation, C);
+        
+        let relationSchemes = convertMVDToFragments(relation, MVD);
 
-        return chaseLosslessDecomposition(relation, processedC, tableau);
+        return chaseLosslessDecomposition(relation, processedC, relationSchemes);
 }
 
 function checkSimpleChaseResult(tableau, FD) {
