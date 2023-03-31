@@ -13,7 +13,7 @@
       </lhs>
       <rhs>
         <attribute>B</attribute>
-      <attribute>C</attribute>
+        <attribute>C</attribute>
       </rhs>
       <type>multivalued</type>
     </dependency>

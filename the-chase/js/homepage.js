@@ -50,9 +50,9 @@ function showInputForEntailment(inputObj) {
   let dependenciesArr = inputObj.chase.entailment.dependency;
   for (let i = 0; i < dependenciesArr.length; i++) {
     let symbol = "";
-    if (dependenciesArr[i].type === "functional") {
+    if (dependenciesArr[i].type.toLowerCase() === "functional") {
       symbol = " → ";
-    } else if (dependenciesArr[i].type === "multivalued") {
+    } else if (dependenciesArr[i].type.toLowerCase() === "multivalued") {
       symbol = " →→ ";
     }
     dependenciesText += "{" + dependenciesArr[i].lhs.attribute + "}"
@@ -67,17 +67,52 @@ function showInputForEntailment(inputObj) {
   let dependencyChased = document.createElement("p");
   let dependencyChasedText = "We want to chase: ";
   let symbol = "";
-  if (inputObj.chase.entailment.dependency_chased.type === "functional") {
+  if (inputObj.chase.entailment.dependency_chased.type.toLowerCase() === "functional") {
     symbol = " → ";
-  } else if (inputObj.chase.entailment.dependency_chased.type === "multivalued") {
+  } else if (inputObj.chase.entailment.dependency_chased.type.toLowerCase() === "multivalued") {
     symbol = " →→ ";
   }
   dependencyChasedText += "{" + inputObj.chase.entailment.dependency_chased.lhs.attribute
-    + "}" + symbol + "{" + inputObj.chase.entailment.dependency_chased.rhs.attribute+ "}";
+    + "}" + symbol + "{" + inputObj.chase.entailment.dependency_chased.rhs.attribute + "}";
   node = document.createTextNode(dependencyChasedText);
   dependencyChased.appendChild(node);
   
   document.getElementById("userInputFields").append(relation, dependencies, dependencyChased);
+}
+
+function convertToArray(element) {
+  return element ? [].concat(element) : [];
+}
+
+function getArgsFromInputObj(inputObj) {
+  let relation = convertToArray(inputObj.chase.entailment.relation.attribute);
+
+  let dependenciesArr = convertToArray(inputObj.chase.entailment.dependency);
+  let dependencies = [];
+  for (let i = 0; i < dependenciesArr.length; i++) {
+    let lhs = convertToArray(dependenciesArr[i].lhs.attribute);
+    let rhs = convertToArray(dependenciesArr[i].rhs.attribute);
+    
+    let mvd = false;
+    if (dependenciesArr[i].type.toLowerCase() === "multivalued") {
+      mvd = true;
+    }
+    dependencies.push({lhs: lhs, rhs: rhs, mvd: mvd});
+  }
+  
+  let type = document.querySelector('input[name="choice"]:checked').value;
+  
+  let dependencyChased = [];
+  let lhs = convertToArray(inputObj.chase.entailment.dependency_chased.lhs.attribute);
+  let rhs = convertToArray(inputObj.chase.entailment.dependency_chased.rhs.attribute);
+  let mvd = false;
+    if (inputObj.chase.entailment.dependency_chased.type.toLowerCase() === "multivalued") {
+      mvd = true;
+    }
+
+  dependencyChased.push({lhs: lhs, rhs: rhs, mvd: mvd});
+  
+  return {relation: relation, dependencies: dependencies, type: type, dependencyChased: dependencyChased};
 }
 
 async function showOutputForEntailment() {
@@ -85,13 +120,21 @@ async function showOutputForEntailment() {
   if (Object.keys(inputObj).length === 0) {
     return;
   }
+  
   showInputForEntailment(inputObj);
   
-  // Code to split input object into arguments for chase(...)
-  // ...
+  let args = getArgsFromInputObj(inputObj);
+  console.log("relations:");
+  console.log(args.relation);
+  console.log("fds:");
+  console.log(args.dependencies);
+  console.log("type:");
+  console.log(args.type);
+  console.log("otherInfo:");
+  console.log(args.dependencyChased);
   
   // Code to display result returned by chase(...)
-  // ...
+  let output = chase(args.relation, args.dependencies, TASK_ENTAILMENT, args.type, args.dependencyChased);
   
   document.getElementById('output').style.display = "block";
 }
