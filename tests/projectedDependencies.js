@@ -32,7 +32,7 @@ chase(relation1, fds1, task, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, otherInfo1)
 
 /**
  * TEST CASE 2
- * Expected: A->B, B->C, CD->->A
+ * Expected: A->B, C->A
  */
 const relation2 = ['A', 'B', 'C', 'D', 'E'];
 const fds2 = [
@@ -42,19 +42,19 @@ const fds2 = [
     mvd: false
   },
   {
-    lhs: ['B'],
-    rhs: ['C'],
+    lhs: ['C'],
+    rhs: ['D'],
     mvd: false
+  },
+  {
+    lhs: ['B', 'C'],
+    rhs: ['E'],
+    mvd: true
   },
   {
     lhs: ['D'],
-    rhs: ['E'],
-    mvd: false
-  },
-  {
-    lhs: ['C', 'D'],
     rhs: ['A'],
-    mvd: true
+    mvd: false
   }
 ]
 const otherInfo2 = {
