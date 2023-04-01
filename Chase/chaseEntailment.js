@@ -114,8 +114,8 @@ export function chaseEntailmentMVD(relation, C, MVD) {
 
 function doesTableauHaveRelevantColumnOfDistinguishedVariables(tableau, FD) {
         let relevantColumnIndexes = [];
-        for (let i = 0; i < FD.lhs.length; i++) {
-                relevantColumnIndexes.push(tableau.columns.indexOf(FD.lhs[i]));
+        for (let i = 0; i < FD.rhs.length; i++) {
+                relevantColumnIndexes.push(tableau.columns.indexOf(FD.rhs[i]));
         }
 
         for (let i = 0; i < tableau.rows.length; i++) {
