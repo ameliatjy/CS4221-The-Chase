@@ -31,6 +31,9 @@ function showInputForMinimum(inputObj) {
 
 export async function showOutputForMinimum() {
   let inputObj = await convertInputXmlToObj("fileForMinimum");
+  if (inputObj === null) {
+    return;
+  }
   if (Object.keys(inputObj).length === 0) {
     return;
   }

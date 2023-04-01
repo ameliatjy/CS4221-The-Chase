@@ -3,13 +3,13 @@ function clearFileInput(taskName) {
     fileForEntailment.value = '';
   } else if (taskName === "lossless") {
     fileForLossless.value = '';
+  } else if (taskName === "preservation") {
+    fileForPreservation.value = '';
   } else if (taskName === "projected") {
     fileForProjected.value = '';
   } else if (taskName === "minimum") {
     fileForMinimum.value = '';
-  } else if (taskName === "preservation") {
-    fileForPreservation.value = '';
-  }
+  } 
 }
 
 function showFeature(event, taskName) {
@@ -43,7 +43,11 @@ async function convertInputXmlToObj(fileName) {
   
   let text = await file.text();
   let parser = new XMLParser();
-  inputObj = parser.parse(text);
+  try {
+    inputObj = parser.parse(text, true);
+  } catch(err) {
+    alert("Your XML file is not well-formed:\n" + err.toString().replaceAll("Error: " , ""));
+  }
   delete inputObj["?xml"];
 
   let str = JSON.stringify(inputObj, null, 4);

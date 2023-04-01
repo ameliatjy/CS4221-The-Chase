@@ -33,9 +33,9 @@
             <div class="tab">
                 <button class="tabLinks" onclick="showFeature(event, 'entailment')" id="defaultShow">Entailment</button>
                 <button class="tabLinks" onclick="showFeature(event, 'lossless')">Lossless Decomposition</button>
+                <button class="tabLinks" onclick="showFeature(event, 'preservation')">Dependency Preservation</button>
                 <button class="tabLinks" onclick="showFeature(event, 'projected')">Projected Dependencies</button>
                 <button class="tabLinks" onclick="showFeature(event, 'minimum')">Minimum Cover</button>
-                <button class="tabLinks" onclick="showFeature(event, 'preservation')">Dependency Preservation</button>
             </div>
             <div id="entailment" class="tabContent">
                 <div class="inputSegment">
@@ -77,6 +77,26 @@
                 </div>
                 <div class="button" onclick="showOutputForLossless()">Run Chase</div>
             </div>
+            <div id="preservation" class="tabContent">
+                <div class="inputSegment">
+                    <h3>Select Input XML File</h3>
+                    <input type="file" class="fileUploadButton" id="fileForPreservation" accept=".xml">
+                </div>
+                <div class="inputSegment">
+                    <h3>Select Chase Variation</h3>
+                    <div class="selectChaseVariation">
+                        <label>
+                            <input type="radio" name="typeForPreservation" value="TYPE_SIMPLE_CHASE" checked>
+                            Simple Chase
+                        </label>
+                        <label>
+                            <input type="radio" name="typeForPreservation" value="TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE">
+                            Chase with Distinguished Variables
+                        </label>
+                    </div>
+                </div>
+                <div class="button" onclick="showOutputForPreservation()">Run Chase</div>
+            </div>
             <div id="projected" class="tabContent">
                 <div class="inputSegment">
                     <h3>Select Input XML File</h3>
@@ -116,26 +136,6 @@
                     </div>
                 </div>
                 <div class="button" onclick="showOutputForMinimum()">Run Chase</div>
-            </div>
-            <div id="preservation" class="tabContent">
-                <div class="inputSegment">
-                    <h3>Select Input XML File</h3>
-                    <input type="file" class="fileUploadButton" id="fileForPreservation" accept=".xml">
-                </div>
-                <div class="inputSegment">
-                    <h3>Select Chase Variation</h3>
-                    <div class="selectChaseVariation">
-                        <label>
-                            <input type="radio" name="typeForPreservation" value="TYPE_SIMPLE_CHASE" checked>
-                            Simple Chase
-                        </label>
-                        <label>
-                            <input type="radio" name="typeForPreservation" value="TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE">
-                            Chase with Distinguished Variables
-                        </label>
-                    </div>
-                </div>
-                <div class="button" onclick="showOutputForPreservation()">Run Chase</div>
             </div>
             <div id="userInput">
                 <h3>Your Input Data</h3>

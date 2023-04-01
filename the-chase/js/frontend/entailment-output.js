@@ -75,6 +75,9 @@ function getArgsFromInputObj(inputObj) {
 
 export async function showOutputForEntailment() {
   let inputObj = await convertInputXmlToObj("fileForEntailment");
+  if (inputObj === null) {
+    return;
+  }
   if (Object.keys(inputObj).length === 0) {
     return;
   }
