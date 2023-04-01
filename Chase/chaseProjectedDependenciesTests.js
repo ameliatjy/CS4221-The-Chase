@@ -26,9 +26,67 @@ C = [
 ]
 projectedRelation = ['A', 'B', 'C']
 
+// resultPhrase = `Relation ${relation} with C = ${prettyPrintC(C)}. What are the FD/MVD for the projected relation ${projectedRelation}? `;
+// let result = chaseProjectedDependencies(relation, C, projectedRelation, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE);
+// prettyPrintResult(result, outputElement, resultPhrase);
+// console.log(result);
+
+// test case 2
+relation = ['A', 'B', 'C', 'D', 'E'];
+C = [
+  {
+    lhs: ['A'],
+    rhs: ['B'],
+    mvd: false
+  },
+  {
+    lhs: ['B'],
+    rhs: ['C'],
+    mvd: false
+  },
+  {
+    lhs: ['C', 'D'],
+    rhs: ['A'],
+    mvd: true
+  },
+  {
+    lhs: ['C'],
+    rhs: ['E'],
+    mvd: false
+  }
+]
+// projectedRelation = ['A', 'B', 'E']
+// resultPhrase = `Relation ${relation} with C = ${prettyPrintC(C)}. What are the FD/MVD for the projected relation ${projectedRelation}? `;
+// let result = chaseProjectedDependencies(relation, C, projectedRelation, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE);
+// prettyPrintResult(result, outputElement, resultPhrase);
+// console.log(result);
+
+// test case 3
+relation = ['A', 'B', 'C', 'D', 'E'];
+C = [
+  {
+    lhs: ['A'],
+    rhs: ['B'],
+    mvd: false
+  },
+  {
+    lhs: ['C'],
+    rhs: ['D'],
+    mvd: false
+  },
+  {
+    lhs: ['B', 'C'],
+    rhs: ['E'],
+    mvd: true
+  },
+  {
+    lhs: ['D'],
+    rhs: ['A'],
+    mvd: false
+  }
+]
+projectedRelation = ['A', 'B', 'C']
 resultPhrase = `Relation ${relation} with C = ${prettyPrintC(C)}. What are the FD/MVD for the projected relation ${projectedRelation}? `;
-let result = chaseProjectedDependencies(relation, C, projectedRelation, TYPE_SIMPLE_CHASE);
+let result = chaseProjectedDependencies(relation, C, projectedRelation, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE);
 prettyPrintResult(result, outputElement, resultPhrase);
-console.log(result)
-const textnode = document.createTextNode(result.result);
-document.getElementById('result').appendChild(textnode);
+console.log(result);

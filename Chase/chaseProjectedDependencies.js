@@ -1,5 +1,5 @@
 import { TYPE_SIMPLE_CHASE } from "../backend/global.js";
-import { chaseEntailmentFDWithDistinguishedVariables, chaseEntailmentSimpleChaseFD } from "./chaseEntailment.js";
+import { chaseEntailmentFDWithDistinguishedVariables, chaseEntailmentMVD, chaseEntailmentSimpleChaseFD } from "./chaseEntailment.js";
 
 function closure(fds, schema) {
   let closure = new Set(schema);
@@ -81,7 +81,9 @@ export function chaseProjectedDependencies(relation, fds, projectedRelation, typ
       Tcopy.splice(idx, 1);
       console.log(Tcopy)
       var chase;
-      if (type == TYPE_SIMPLE_CHASE) {
+      if (F.mvd) {
+        chase = chaseEntailmentMVD(projectedRelation, Tcopy, F);
+      } else if (type == TYPE_SIMPLE_CHASE) {
         chase = chaseEntailmentSimpleChaseFD(projectedRelation, Tcopy, F);
       } else {
         chase = chaseEntailmentFDWithDistinguishedVariables(projectedRelation, Tcopy, F);
@@ -112,7 +114,9 @@ export function chaseProjectedDependencies(relation, fds, projectedRelation, typ
           mvd: F.mvd
         }
         var chase;
-        if (type == TYPE_SIMPLE_CHASE) {
+        if (subFD.mvd) {
+          chase = chaseEntailmentMVD(projectedRelation, T, subFD);
+        } else if (type == TYPE_SIMPLE_CHASE) {
           chase = chaseEntailmentSimpleChaseFD(projectedRelation, T, subFD);
         } else {
           chase = chaseEntailmentFDWithDistinguishedVariables(projectedRelation, T, subFD);
