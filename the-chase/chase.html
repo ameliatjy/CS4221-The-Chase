@@ -9,9 +9,13 @@
         import {showOutputForEntailment} from "./js/frontend/entailment-output.js";
         import {showOutputForLossless} from "./js/frontend/lossless-output.js";
         import {showOutputForProjected} from "./js/frontend/projected-output.js";
+        import {showOutputForMinimum} from "./js/frontend/minimum-output.js";
+        import {showOutputForPreservation} from "./js/frontend/preservation-output.js";
         window.showOutputForEntailment = showOutputForEntailment;
         window.showOutputForLossless = showOutputForLossless;
         window.showOutputForProjected = showOutputForProjected;
+        window.showOutputForMinimum = showOutputForMinimum;
+        window.showOutputForPreservation = showOutputForPreservation;
     </script>
 </head>
 <body>
@@ -78,7 +82,7 @@
                     <h3>Select Input XML File</h3>
                     <input type="file" class="fileUploadButton" id="fileForProjected" accept=".xml">
                 </div>
-                 <div class="inputSegment">
+                <div class="inputSegment">
                     <h3>Select Chase Variation</h3>
                     <div class="selectChaseVariation">
                         <label>
@@ -96,16 +100,42 @@
             <div id="minimum" class="tabContent">
                 <div class="inputSegment">
                     <h3>Select Input XML File</h3>
-                    <input type="file" class="fileUploadButton" id="myFile" accept=".xml">
+                    <input type="file" class="fileUploadButton" id="fileForMinimum" accept=".xml">
                 </div>
-                <div class="button">Run Chase</div>
+                <div class="inputSegment">
+                    <h3>Select Chase Variation</h3>
+                    <div class="selectChaseVariation">
+                        <label>
+                            <input type="radio" name="typeForMinimum" value="TYPE_SIMPLE_CHASE" checked>
+                            Simple Chase
+                        </label>
+                        <label>
+                            <input type="radio" name="typeForMinimum" value="TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE">
+                            Chase with Distinguished Variables
+                        </label>
+                    </div>
+                </div>
+                <div class="button" onclick="showOutputForMinimum()">Run Chase</div>
             </div>
             <div id="preservation" class="tabContent">
                 <div class="inputSegment">
                     <h3>Select Input XML File</h3>
-                    <input type="file" class="fileUploadButton" id="myFile" accept=".xml">
+                    <input type="file" class="fileUploadButton" id="fileForPreservation" accept=".xml">
                 </div>
-                <div class="button">Run Chase</div>
+                <div class="inputSegment">
+                    <h3>Select Chase Variation</h3>
+                    <div class="selectChaseVariation">
+                        <label>
+                            <input type="radio" name="typeForPreservation" value="TYPE_SIMPLE_CHASE" checked>
+                            Simple Chase
+                        </label>
+                        <label>
+                            <input type="radio" name="typeForPreservation" value="TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE">
+                            Chase with Distinguished Variables
+                        </label>
+                    </div>
+                </div>
+                <div class="button" onclick="showOutputForPreservation()">Run Chase</div>
             </div>
             <div id="userInput">
                 <h3>Your Input Data</h3>
