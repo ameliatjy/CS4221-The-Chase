@@ -46,11 +46,11 @@
                     <h3>Select Chase Variation</h3>
                     <div class="selectChaseVariation">
                         <label>
-                            <input type="radio" name="typeForEntailment" value="TYPE_SIMPLE_CHASE" checked>
+                            <input type="radio" name="chaseType" value="simple" checked>
                             Simple Chase
                         </label>
                         <label>
-                            <input type="radio" name="typeForEntailment" value="TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE">
+                            <input type="radio" name="chaseType" value="distVar">
                             Chase with Distinguished Variables
                         </label>
                     </div>
@@ -62,38 +62,12 @@
                     <h3>Select Input XML File</h3>
                     <input type="file" class="fileUploadButton" id="fileForLossless" accept=".xml">
                 </div>
-                <div class="inputSegment">
-                    <h3>Select Chase Variation</h3>
-                    <div class="selectChaseVariation">
-                        <label>
-                            <input type="radio" name="typeForLossless" value="TYPE_SIMPLE_CHASE" checked>
-                            Simple Chase
-                        </label>
-                        <label>
-                            <input type="radio" name="typeForLossless" value="TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE">
-                            Chase with Distinguished Variables
-                        </label>
-                    </div>
-                </div>
                 <div class="button" onclick="showOutputForLossless()">Run Chase</div>
             </div>
             <div id="preservation" class="tabContent">
                 <div class="inputSegment">
                     <h3>Select Input XML File</h3>
                     <input type="file" class="fileUploadButton" id="fileForPreservation" accept=".xml">
-                </div>
-                <div class="inputSegment">
-                    <h3>Select Chase Variation</h3>
-                    <div class="selectChaseVariation">
-                        <label>
-                            <input type="radio" name="typeForPreservation" value="TYPE_SIMPLE_CHASE" checked>
-                            Simple Chase
-                        </label>
-                        <label>
-                            <input type="radio" name="typeForPreservation" value="TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE">
-                            Chase with Distinguished Variables
-                        </label>
-                    </div>
                 </div>
                 <div class="button" onclick="showOutputForPreservation()">Run Chase</div>
             </div>
@@ -102,19 +76,6 @@
                     <h3>Select Input XML File</h3>
                     <input type="file" class="fileUploadButton" id="fileForProjected" accept=".xml">
                 </div>
-                <div class="inputSegment">
-                    <h3>Select Chase Variation</h3>
-                    <div class="selectChaseVariation">
-                        <label>
-                            <input type="radio" name="typeForProjected" value="TYPE_SIMPLE_CHASE" checked>
-                            Simple Chase
-                        </label>
-                        <label>
-                            <input type="radio" name="typeForProjected" value="TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE">
-                            Chase with Distinguished Variables
-                        </label>
-                    </div>
-                </div>
                 <div class="button" onclick="showOutputForProjected()">Run Chase</div>
             </div>
             <div id="minimum" class="tabContent">
@@ -122,85 +83,18 @@
                     <h3>Select Input XML File</h3>
                     <input type="file" class="fileUploadButton" id="fileForMinimum" accept=".xml">
                 </div>
-                <div class="inputSegment">
-                    <h3>Select Chase Variation</h3>
-                    <div class="selectChaseVariation">
-                        <label>
-                            <input type="radio" name="typeForMinimum" value="TYPE_SIMPLE_CHASE" checked>
-                            Simple Chase
-                        </label>
-                        <label>
-                            <input type="radio" name="typeForMinimum" value="TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE">
-                            Chase with Distinguished Variables
-                        </label>
-                    </div>
-                </div>
                 <div class="button" onclick="showOutputForMinimum()">Run Chase</div>
             </div>
             <div id="userInput">
                 <h3>Your Input Data</h3>
                 <div id="userInputFields"></div>
             </div>
+            <div id="notation">
+                <h3>Summary of Notations Used</h3>
+                <p>The variables used in the steps are distinguished as a1, a2, a3, etc. Distinguished variables are assigned to specific columns, with a1 appearing only in the first column, a2 in the second column, and so on. On the other hand, non-distinguished variables are represented as b1, b2, b3, etc. There are no limitations as to where non-distinguished variables can appear, meaning they may appear in any column.</p>
+            </div>
             <!-- Output is currently hardcoded -->
             <div id="output">
-                <div class="step">
-                    <h3>Step 1: Setting the Chase</h3>
-                    <table>
-                      <tr>
-                        <th>A</th>
-                        <th>B</th>
-                        <th>C</th>
-                        <th>D</th>
-                      </tr>
-                      <tr>
-                        <td>a1</td>
-                        <td>b1</td>
-                        <td>c1</td>
-                        <td>d1</td>
-                      </tr>
-                      <tr>
-                        <td>a1</td>
-                        <td>b2</td>
-                        <td>c2</td>
-                        <td>d2</td>
-                      </tr>
-                    </table>
-                </div>
-                <div class="step">
-                    <h3>Step 2: Use {A} →→ {B,C}</h3>
-                    <table>
-                      <tr>
-                        <th>A</th>
-                        <th>B</th>
-                        <th>C</th>
-                        <th>D</th>
-                      </tr>
-                      <tr>
-                        <td>a1</td>
-                        <td>b1</td>
-                        <td>c1</td>
-                        <td>d1</td>
-                      </tr>
-                      <tr>
-                        <td>a1</td>
-                        <td>b2</td>
-                        <td>c2</td>
-                        <td>d2</td>
-                      </tr>
-                      <tr>
-                        <td>a1</td>
-                        <td>b2</td>
-                        <td>c2</td>
-                        <td>d1</td>
-                      </tr>
-                      <tr>
-                        <td>a1</td>
-                        <td>b1</td>
-                        <td>c1</td>
-                        <td>d2</td>
-                      </tr>
-                    </table>
-                </div>
             </div>
         </article>
         <footer>

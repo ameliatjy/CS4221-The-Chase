@@ -1,14 +1,14 @@
-function showInputForLossless(inputObj) {
-  document.getElementById('userInput').style.display = "block";
-  userInputFields.replaceChildren(); // clear previous user input fields
-  
-  let relation = document.createElement("p");
-  let relationText = "Relation: {" + inputObj.chase.lossless_decomposition.relation.attribute + "}";
-  let node = document.createTextNode(relationText.replaceAll("," , ", "));
-  relation.appendChild(node);
-  
-  let dependencies = document.createElement("p");
-  let dependenciesText = "Dependencies: ";
+import {chase} from "../../../backend/chase.js";
+import {TASK_LOSSLESS_DECOMPOSITION} from "../../../backend/global.js";
+
+function getRelationFromInput(inputObj) {
+  let relation = "{" + inputObj.chase.lossless_decomposition.relation.attribute.toString()
+  relation = relation.replaceAll("," , ", ") + "}";
+  return relation;
+}
+
+function getDependenciesFromInput(inputObj) {
+  let dependencies = "{";
   let dependenciesArr = inputObj.chase.lossless_decomposition.dependency;
   for (let i = 0; i < dependenciesArr.length; i++) {
     let symbol = "";
@@ -17,25 +17,47 @@ function showInputForLossless(inputObj) {
     } else if (dependenciesArr[i].type.toLowerCase() === "multivalued") {
       symbol = " →→ ";
     }
-    dependenciesText += "{" + dependenciesArr[i].lhs.attribute + "}"
+    dependencies += "{" + dependenciesArr[i].lhs.attribute + "}"
       + symbol + "{" + dependenciesArr[i].rhs.attribute + "}";
     if (i != dependenciesArr.length - 1) {
-      dependenciesText += ", ";
+      dependencies += ",";
     }
   }
+  dependencies = dependencies.replaceAll("," , ", ") + "}";
+  return dependencies;
+}
+
+function getFragmentsFromInput(inputObj) {
+  let fragments = "{";
+  let fragmentsArr = inputObj.chase.lossless_decomposition.fragment;
+  for (let i = 0; i < fragmentsArr.length; i++) {
+    fragments += "{" + fragmentsArr[i].attribute + "}";
+    if (i != fragmentsArr.length - 1) {
+      fragments += ",";
+    }
+  }
+  fragments = fragments.replaceAll("," , ", ") + "}";
+  return fragments;
+}
+
+function showInputForLossless(inputObj) {
+  document.getElementById('userInput').style.display = "block";
+  userInputFields.replaceChildren(); // clear previous user input fields
+  
+  let relation = document.createElement("p");
+  let relationText = "Relation: " + getRelationFromInput(inputObj);
+  let node = document.createTextNode(relationText);
+  relation.appendChild(node);
+  
+  let dependencies = document.createElement("p");
+  let dependenciesText = "Dependencies: " + getDependenciesFromInput(inputObj);
   node = document.createTextNode(dependenciesText.replaceAll("," , ", "));
   dependencies.appendChild(node);
   
   let fragments = document.createElement("p");
-  let fragmentsText = "Fragments: ";
-  let fragmentsArr = inputObj.chase.lossless_decomposition.fragment;
-  for (let i = 0; i < fragmentsArr.length; i++) {
-    fragmentsText += "{" + fragmentsArr[i].attribute + "}";
-    if (i != fragmentsArr.length - 1) {
-      fragmentsText += ",";
-    }
-  }
-  node = document.createTextNode(fragmentsText.replaceAll("," , ", "));
+  let fragmentsText = "Fragments: " + getFragmentsFromInput(inputObj);
+  
+  node = document.createTextNode(fragmentsText);
   fragments.appendChild(node);
   
   document.getElementById("userInputFields").append(relation, dependencies, fragments);

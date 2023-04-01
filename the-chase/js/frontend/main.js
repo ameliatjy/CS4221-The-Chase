@@ -1,20 +1,21 @@
 function clearFileInput(taskName) {
   if (taskName === "entailment") {
-    fileForEntailment.value = '';
+    fileForEntailment.value = "";
   } else if (taskName === "lossless") {
-    fileForLossless.value = '';
+    fileForLossless.value = "";
   } else if (taskName === "preservation") {
-    fileForPreservation.value = '';
+    fileForPreservation.value = "";
   } else if (taskName === "projected") {
-    fileForProjected.value = '';
+    fileForProjected.value = "";
   } else if (taskName === "minimum") {
-    fileForMinimum.value = '';
+    fileForMinimum.value = "";
   } 
 }
 
 function showFeature(event, taskName) {
   document.getElementById('userInput').style.display = "none";
   document.getElementById('output').style.display = "none";
+  document.getElementById('notation').style.display = "none";
   clearFileInput(taskName);
   
   let i, tabContent, tabLinks;
@@ -59,12 +60,13 @@ function convertToArray(element) {
   return element ? [].concat(element) : [];
 }
 
-function createOutputStep(columns, rows) {
+function createOutputStep(columns, rows, description) {
   let step = document.createElement("div");
   step.className = "step";
-  let description = document.createElement("h3");
-  description.appendChild(document.createTextNode("Sample Description for Step"));
-  step.append(description)
+  let stepInfo = document.createElement("h3");
+  stepInfo.appendChild(document.createTextNode(description));
+  step.append(stepInfo)
+  
   let table = document.createElement("table");
   step.append(table)
   
