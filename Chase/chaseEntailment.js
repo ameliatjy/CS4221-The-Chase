@@ -123,6 +123,7 @@ export function chaseEntailmentFDWithDistinguishedVariables(relation, C, FD) {
                         }
 
                         if (isJD(currentDependency)) {
+                                let initialTableau = snapshotOfTableau(tableau);
                                 tableau = jRule(tableau, currentDependency);
 
                                 if (checkIfTableauChanged(initialTableau, tableau)) { 
