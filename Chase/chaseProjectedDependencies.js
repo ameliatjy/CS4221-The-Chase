@@ -21,8 +21,12 @@ function closure(fds, schema) {
 }
 
 export function chaseProjectedDependencies(relation, fds, projectedRelation, type) {
+  let steps = [];
   // 1. T is the eventual output set of FDs
   let T = [];
+  steps.push({
+    description: "1. Let T be the eventual output set of functional dependencies."
+  });
 
   // get all subsets of projectedRelation
   const allSubsets = [[]];
@@ -33,6 +37,9 @@ export function chaseProjectedDependencies(relation, fds, projectedRelation, typ
     }
     allSubsets.push(...subsets);
   }
+  steps.push({
+    description: "2a. Get all subsets of projected relation."
+  });
 
   // 2. compute closure for each subset
   // add to T all nontrivial FDs X->A such that A is both in closure and in projectedRelation
@@ -52,6 +59,10 @@ export function chaseProjectedDependencies(relation, fds, projectedRelation, typ
       }
     }
   }
+  steps.push({
+    description: "2b. Compute closure for each subset." + 
+                "Add to T all non-trivial functional dependencies X->A such that A is both in the closure and the projected relation."
+  })
   
   // 3. get minimal basis by
   // 3a. remove F if it can be derived from others
@@ -59,15 +70,21 @@ export function chaseProjectedDependencies(relation, fds, projectedRelation, typ
   let Tchanged = true;
   while (Tchanged) {
     Tchanged = false;
+    for (const Q of T) {
+      console.log(Q)
+    }
     for (const F of T) {
+      console.log(F.lhs + "->" + F.rhs)
       const idx = T.indexOf(F);
+      console.log(idx)
       let Tcopy = [...T];
       Tcopy.splice(idx, 1);
+      console.log(Tcopy)
       var chase;
       if (type == TYPE_SIMPLE_CHASE) {
-        chase = chaseEntailmentSimpleChaseFD(relation, Tcopy, F);
+        chase = chaseEntailmentSimpleChaseFD(projectedRelation, Tcopy, F);
       } else {
-        chase = chaseEntailmentFDWithDistinguishedVariables(relation, Tcopy, F);
+        chase = chaseEntailmentFDWithDistinguishedVariables(projectedRelation, Tcopy, F);
       }
       console.log(chase['result'])
       if (chase['result']) {
@@ -76,6 +93,7 @@ export function chaseProjectedDependencies(relation, fds, projectedRelation, typ
         Tchanged = true;
       }
     }
+
     for (const F of T) {
       let Y = F.lhs;
       if (Y.length < 2) {
@@ -85,7 +103,9 @@ export function chaseProjectedDependencies(relation, fds, projectedRelation, typ
   
       // if Z->B can be derived from T, then replace Y->B with Z->B
       for (let i = 0; i < Y.length; i++) {
-        const Z = Y.slice(i, 1);
+        const Z = [...Y];
+        Z.splice(i, 1);
+        console.log(Z);
         let subFD = {
           lhs: Z,
           rhs: B,
@@ -93,25 +113,33 @@ export function chaseProjectedDependencies(relation, fds, projectedRelation, typ
         }
         var chase;
         if (type == TYPE_SIMPLE_CHASE) {
-          chase = chaseEntailmentSimpleChaseFD(relation, T, subFD);
+          chase = chaseEntailmentSimpleChaseFD(projectedRelation, T, subFD);
         } else {
-          chase = chaseEntailmentFDWithDistinguishedVariables(relation, T, subFD);
+          chase = chaseEntailmentFDWithDistinguishedVariables(projectedRelation, T, subFD);
         }
+        console.log(chase['result'])
         if (chase['result']) {
           // replace Y->B with Z->B
           const idx = T.indexOf(F);
           if (T.find(e => e.lhs == subFD.lhs && e.rhs == subFD.rhs && e.mvd == subFD.mvd) === undefined && idx > -1) {
             T[idx] = subFD;
             Tchanged = true;
+            break;
           } else if (idx > -1) {
             // subFD already exists, so remove current
             T.splice(idx, 1);
             Tchanged = true;
+            break;
           }
         }
       }
     }
   }
+  steps.push({
+    description: "3. Find the minimal basis of T by:\n" + 
+                "3a. Use the chase for entailement to remove functional dependencies that can be derived from other functional dependencies.\n" +
+                "3b. Use the chase for entailment to simplify the LHS of the functional dependencies."
+  });
   return {
     result: T,
     steps: [],

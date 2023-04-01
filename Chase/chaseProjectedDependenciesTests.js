@@ -27,7 +27,7 @@ C = [
 projectedRelation = ['A', 'B', 'C']
 
 resultPhrase = `Relation ${relation} with C = ${prettyPrintC(C)}. What are the FD/MVD for the projected relation ${projectedRelation}? `;
-let result = chaseProjectedDependencies(relation, C, projectedRelation, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE);
+let result = chaseProjectedDependencies(relation, C, projectedRelation, TYPE_SIMPLE_CHASE);
 prettyPrintResult(result, outputElement, resultPhrase);
 console.log(result)
 const textnode = document.createTextNode(result.result);
