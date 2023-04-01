@@ -75,8 +75,8 @@ FD = {
         mvd: false,
 };
 
-resultPhrase = `Relation ${relation} with C = ${prettyPrintC(C)}. We are chasing FD = ${FD.lhs} -> ${FD.rhs}. So is it entailed? `;
-prettyPrintResult(chaseEntailmentFDWithDistinguishedVariables(relation, C, FD), outputElement, resultPhrase);
+// resultPhrase = `Relation ${relation} with C = ${prettyPrintC(C)}. We are chasing FD = ${FD.lhs} -> ${FD.rhs}. So is it entailed? `;
+// prettyPrintResult(chaseEntailmentFDWithDistinguishedVariables(relation, C, FD), outputElement, resultPhrase);
 
 // test case 4
 relation = ['A', 'B', 'C', 'D'];
@@ -137,4 +137,27 @@ FD = {
 
 // resultPhrase = `Relation ${relation} with C = ${prettyPrintC(C)}. We are chasing FD = ${FD.lhs} -> ${FD.rhs}. So is it entailed? `;
 // prettyPrintResult(chaseEntailmentFDWithDistinguishedVariables(relation, C, FD), outputElement, resultPhrase);
+
+// test case 6
+relation = ['A', 'B', 'C', 'D'];
+C = [
+        {
+                lhs: ['B'],
+                rhs: ['C'],
+                mvd: false,
+        },
+        {
+                lhs: ['A'],
+                rhs: ['B'],
+                mvd: false,
+        },
+];
+FD = {
+        lhs: ['A'],
+        rhs: ['C'],
+        mvd: false,
+};
+
+resultPhrase = `Relation ${relation} with C = ${prettyPrintC(C)}. We are chasing FD = ${FD.lhs} -> ${FD.rhs}. So is it entailed? `;
+prettyPrintResult(chaseEntailmentFDWithDistinguishedVariables(relation, C, FD), outputElement, resultPhrase);
 

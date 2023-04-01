@@ -12,6 +12,7 @@ import {
         snapshotOfTableau, 
         convertMVDToFragments,
         doesTableauHaveARowOfDistinguishedVariables,
+        checkIfTableauChanged,
 } from './helpers.js';
 
 import { fRule } from './fRule.js';
@@ -30,26 +31,53 @@ export function chaseEntailmentSimpleChaseFD(relation, C, FD) {
         });
         
         let processedC = convertMVDsToJDs(relation, C);
+
+        let tableauChanged = true;
+        let iterations = 0;
+
+        while (tableauChanged) {
+                tableauChanged = false;
  
-        // step 2: loop through C and apply F-rule for each FD in C
-        for (let i = 0; i < processedC.length; i++) {
-                let currentDependency = processedC[i];
-                if (isFD(currentDependency)) {
-                        tableau = fRule(tableau, currentDependency);
-                        steps.push({
-                                description: `Apply F-rule to ${currentDependency.lhs} -> ${currentDependency.rhs}`,
-                                tableau: snapshotOfTableau(tableau),
-                        });
+                // step 2: loop through C and apply F-rule for each FD in C
+                for (let i = 0; i < processedC.length; i++) {
+                        let currentDependency = processedC[i];
+                        if (isFD(currentDependency)) {
+                                let initialTableau = snapshotOfTableau(tableau);
+                                tableau = fRule(tableau, currentDependency);
 
+                                if (checkIfTableauChanged(initialTableau, tableau)) {
+                                        tableauChanged = true;
+                                        steps.push({
+                                                description: `Apply F-rule to ${currentDependency.lhs} -> ${currentDependency.rhs}`,
+                                                tableau: snapshotOfTableau(tableau),
+                                        });
+                                        continue;
+                                }
+
+                        }
+
+                        if (isJD(currentDependency)) {
+                                let initialTableau = snapshotOfTableau(tableau);
+                                tableau = jRule(tableau, currentDependency);
+
+                                if (checkIfTableauChanged(initialTableau, tableau)) {
+                                        tableauChanged = true;
+                                        steps.push({
+                                                description: `Apply J-rule to ${prettyPrintJD(currentDependency)}`,
+                                                tableau: snapshotOfTableau(tableau),
+                                        });
+                                        continue;
+                                }
+                        }
                 }
 
-                if (isJD(currentDependency)) {
-                        tableau = jRule(tableau, currentDependency);
-                        steps.push({
-                                description: `Apply J-rule to ${prettyPrintJD(currentDependency)}`,
-                                tableau: snapshotOfTableau(tableau),
-                        });
-                }
+                iterations++;
+
+                steps.push({
+                        description: `Tableau after iteration ${iterations}`,
+                        tableau: snapshotOfTableau(tableau),
+                });
+
         }
         
         let result = checkSimpleChaseResult(tableau, FD);
@@ -72,24 +100,49 @@ export function chaseEntailmentFDWithDistinguishedVariables(relation, C, FD) {
 
         let processedC = convertMVDsToJDs(relation, C);
 
-        for (let i = 0; i < processedC.length; i++) {
-                let currentDependency = processedC[i];
-                if (isFD(currentDependency)) {
-                        tableau = fRule(tableau, currentDependency);
-                        steps.push({
-                                description: `Apply F-rule to ${currentDependency.lhs} -> ${currentDependency.rhs}`,
-                                tableau: snapshotOfTableau(tableau),
-                        });
+        let tableauChanged = true;
+        let iterations = 0;
 
-                }
+        while (tableauChanged) {
+                tableauChanged = false;
 
-                if (isJD(currentDependency)) {
-                        tableau = jRule(tableau, currentDependency);
-                        steps.push({
-                                description: `Apply J-rule to ${prettyPrintJD(currentDependency)}`,
-                                tableau: snapshotOfTableau(tableau),
-                        });
+                for (let i = 0; i < processedC.length; i++) {
+                        let currentDependency = processedC[i];
+                        if (isFD(currentDependency)) {
+                                let initialTableau = snapshotOfTableau(tableau);
+                                tableau = fRule(tableau, currentDependency);
+
+                                if (checkIfTableauChanged(initialTableau, tableau)) {
+                                        steps.push({
+                                                description: `Apply F-rule to ${currentDependency.lhs} -> ${currentDependency.rhs}`,
+                                                tableau: snapshotOfTableau(tableau),
+                                        });
+                                        tableauChanged = true;
+                                        continue;
+                                }
+                        }
+
+                        if (isJD(currentDependency)) {
+                                tableau = jRule(tableau, currentDependency);
+
+                                if (checkIfTableauChanged(initialTableau, tableau)) { 
+                                        steps.push({
+                                                description: `Apply J-rule to ${prettyPrintJD(currentDependency)}`,
+                                                tableau: snapshotOfTableau(tableau),
+                                        });
+                                        tableauChanged = true;
+                                        continue;
+                                }       
+                        }
                 }
+                
+                iterations++;
+
+                steps.push({
+                        description: `Tableau after iteration ${iterations}`,
+                        tableau: snapshotOfTableau(tableau),
+                });
+
         }
 
         let result = doesTableauHaveRelevantColumnOfDistinguishedVariables(tableau, FD);
@@ -117,6 +170,7 @@ function doesTableauHaveRelevantColumnOfDistinguishedVariables(tableau, FD) {
         for (let i = 0; i < FD.rhs.length; i++) {
                 relevantColumnIndexes.push(tableau.columns.indexOf(FD.rhs[i]));
         }
+
 
         for (let i = 0; i < tableau.rows.length; i++) {
                 let currentRow = tableau.rows[i];
