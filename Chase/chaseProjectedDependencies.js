@@ -53,7 +53,6 @@ export function chaseProjectedDependencies(relation, fds, projectedRelation, typ
           mvd: false
         };
         if (T.find(e => e.lhs == nontrivialFD.lhs && e.rhs == nontrivialFD.rhs && e.mvd == nontrivialFD.mvd) === undefined) {
-          console.log("added lhs:" + X + ", rhs:" + [A] + ", mvd:" + false)
           T.push(nontrivialFD);
         }
       }
@@ -70,16 +69,10 @@ export function chaseProjectedDependencies(relation, fds, projectedRelation, typ
   let Tchanged = true;
   while (Tchanged) {
     Tchanged = false;
-    for (const Q of T) {
-      console.log(Q)
-    }
     for (const F of T) {
-      console.log(F.lhs + "->" + F.rhs)
       const idx = T.indexOf(F);
-      console.log(idx)
       let Tcopy = [...T];
       Tcopy.splice(idx, 1);
-      console.log(Tcopy)
       var chase;
       if (F.mvd) {
         chase = chaseEntailmentMVD(projectedRelation, Tcopy, F);
@@ -88,7 +81,6 @@ export function chaseProjectedDependencies(relation, fds, projectedRelation, typ
       } else {
         chase = chaseEntailmentFDWithDistinguishedVariables(projectedRelation, Tcopy, F);
       }
-      console.log(chase['result'])
       if (chase['result']) {
         // remove F
         T.splice(idx, 1);
@@ -107,7 +99,6 @@ export function chaseProjectedDependencies(relation, fds, projectedRelation, typ
       for (let i = 0; i < Y.length; i++) {
         const Z = [...Y];
         Z.splice(i, 1);
-        console.log(Z);
         let subFD = {
           lhs: Z,
           rhs: B,
@@ -121,7 +112,6 @@ export function chaseProjectedDependencies(relation, fds, projectedRelation, typ
         } else {
           chase = chaseEntailmentFDWithDistinguishedVariables(projectedRelation, T, subFD);
         }
-        console.log(chase['result'])
         if (chase['result']) {
           // replace Y->B with Z->B
           const idx = T.indexOf(F);
