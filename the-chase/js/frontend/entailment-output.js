@@ -1,23 +1,3 @@
-function showFeature(event, taskName) {
-  document.getElementById('userInput').style.display = "none";
-  document.getElementById('output').style.display = "none";
-  
-  let i, tabContent, tabLinks;
-
-  tabContent = document.getElementsByClassName("tabContent");
-  for (i = 0; i < tabContent.length; i++) {
-    tabContent[i].style.display = "none";
-  }
-
-  tabLinks = document.getElementsByClassName("tabLinks");
-  for (i = 0; i < tabLinks.length; i++) {
-    tabLinks[i].className = tabLinks[i].className.replace(" active", "");
-  }
-
-  document.getElementById(taskName).style.display = "block";
-  event.currentTarget.className += " active";
-}
-
 async function convertInputXmlToObj() {
   let inputObj = {};
   let file = document.getElementById("myFile").files[0];
@@ -34,6 +14,10 @@ async function convertInputXmlToObj() {
   let str = JSON.stringify(inputObj, null, 4);
   console.log(str);
   return inputObj;
+}
+
+function convertToArray(element) {
+  return element ? [].concat(element) : [];
 }
 
 function showInputForEntailment(inputObj) {
@@ -80,10 +64,6 @@ function showInputForEntailment(inputObj) {
   document.getElementById("userInputFields").append(relation, dependencies, dependencyChased);
 }
 
-function convertToArray(element) {
-  return element ? [].concat(element) : [];
-}
-
 function getArgsFromInputObj(inputObj) {
   let relation = convertToArray(inputObj.chase.entailment.relation.attribute);
 
@@ -115,7 +95,7 @@ function getArgsFromInputObj(inputObj) {
   return {relation: relation, dependencies: dependencies, type: type, dependencyChased: dependencyChased};
 }
 
-async function showOutputForEntailment() {
+export async function showOutputForEntailment() {
   let inputObj = await convertInputXmlToObj();
   if (Object.keys(inputObj).length === 0) {
     return;
@@ -134,7 +114,7 @@ async function showOutputForEntailment() {
   console.log(args.dependencyChased);
   
   // Code to display result returned by chase(...)
-  let output = chase(args.relation, args.dependencies, TASK_ENTAILMENT, args.type, args.dependencyChased);
+  // let output = chase(args.relation, args.dependencies, TASK_ENTAILMENT, args.type, args.dependencyChased);
   
   document.getElementById('output').style.display = "block";
 }

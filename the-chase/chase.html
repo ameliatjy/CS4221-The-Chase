@@ -3,8 +3,11 @@
     <meta charset="UTF-8">
     <title>The Chase</title>
     <link href="css/homepage.css" rel="stylesheet">
-	<script src="js/homepage.js"></script>
-    <script src="js/chase.js"></script>
+	<script src="js/frontend/main.js"></script>
+    <script type="module">
+        import {showOutputForEntailment} from "./js/frontend/entailment-output.js";
+        window.showOutputForEntailment = showOutputForEntailment;
+    </script>
 </head>
 <body>
     <div class="wrapper">
@@ -33,8 +36,8 @@
                 <div class="inputSegment">
                     <h3>Select Chase Variation</h3>
                     <div class="selectChaseVariation">
-                        <input type="radio" id="simple" name="choice" value="TYPE_SIMPLE_CHASE" checked><label for="simple">Simple Chase</label>
-                        <input type="radio" id="distVar" name="choice" value="TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE"><label for="distVar">Chase with Distinguished Variables</label>
+                        <input type="radio" name="choice" value="TYPE_SIMPLE_CHASE" checked><label for="simple">Simple Chase</label>
+                        <input type="radio" name="choice" value="TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE"><label for="distVar">Chase with Distinguished Variables</label>
                     </div>
                 </div>
                 <div class="button" onclick="showOutputForEntailment()">Run Chase</div>
@@ -137,6 +140,6 @@
         </footer>
     </div>
 </body>
-<script src="js/fxparser.min.js"></script>
+<script src="js/frontend/fxparser.min.js"></script>
 <script>document.getElementById("defaultShow").click();</script>
 </html>
