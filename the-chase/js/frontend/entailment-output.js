@@ -1,32 +1,10 @@
-async function convertInputXmlToObj() {
-  let inputObj = {};
-  let file = document.getElementById("myFile").files[0];
-  if (document.getElementById("myFile").value == "") {
-    alert("Please select an input XML file!");
-    return inputObj;
-  }
-  
-  let text = await file.text();
-  let parser = new XMLParser();
-  inputObj = parser.parse(text);
-  delete inputObj["?xml"];
-
-  let str = JSON.stringify(inputObj, null, 4);
-  console.log(str);
-  return inputObj;
-}
-
-function convertToArray(element) {
-  return element ? [].concat(element) : [];
-}
-
 function showInputForEntailment(inputObj) {
   document.getElementById('userInput').style.display = "block";
   userInputFields.replaceChildren(); // clear previous user input fields
   
   let relation = document.createElement("p");
-  let relationText = "Relation: " + inputObj.chase.entailment.relation.attribute;
-  let node = document.createTextNode(relationText);
+  let relationText = "Relation: {" + inputObj.chase.entailment.relation.attribute + "}";
+  let node = document.createTextNode(relationText.replaceAll("," , ", "));
   relation.appendChild(node);
   
   let dependencies = document.createElement("p");
@@ -41,11 +19,11 @@ function showInputForEntailment(inputObj) {
     }
     dependenciesText += "{" + dependenciesArr[i].lhs.attribute + "}"
       + symbol + "{" + dependenciesArr[i].rhs.attribute + "}";
-    if (i == dependenciesArr.length - 2) {
-      dependenciesText += ", ";
+    if (i != dependenciesArr.length - 1) {
+      dependenciesText += ",";
     }
   }
-  node = document.createTextNode(dependenciesText);
+  node = document.createTextNode(dependenciesText.replaceAll("," , ", "));
   dependencies.appendChild(node);
   
   let dependencyChased = document.createElement("p");
@@ -58,7 +36,7 @@ function showInputForEntailment(inputObj) {
   }
   dependencyChasedText += "{" + inputObj.chase.entailment.dependency_chased.lhs.attribute
     + "}" + symbol + "{" + inputObj.chase.entailment.dependency_chased.rhs.attribute + "}";
-  node = document.createTextNode(dependencyChasedText);
+  node = document.createTextNode(dependencyChasedText.replaceAll("," , ", "));
   dependencyChased.appendChild(node);
   
   document.getElementById("userInputFields").append(relation, dependencies, dependencyChased);
@@ -80,7 +58,7 @@ function getArgsFromInputObj(inputObj) {
     dependencies.push({lhs: lhs, rhs: rhs, mvd: mvd});
   }
   
-  let type = document.querySelector('input[name="choice"]:checked').value;
+  let type = document.querySelector('input[name="typeForEntailment"]:checked').value;
   
   let dependencyChased = [];
   let lhs = convertToArray(inputObj.chase.entailment.dependency_chased.lhs.attribute);
@@ -96,7 +74,7 @@ function getArgsFromInputObj(inputObj) {
 }
 
 export async function showOutputForEntailment() {
-  let inputObj = await convertInputXmlToObj();
+  let inputObj = await convertInputXmlToObj("fileForEntailment");
   if (Object.keys(inputObj).length === 0) {
     return;
   }
@@ -115,6 +93,9 @@ export async function showOutputForEntailment() {
   
   // Code to display result returned by chase(...)
   // let output = chase(args.relation, args.dependencies, TASK_ENTAILMENT, args.type, args.dependencyChased);
+  let columns = ['A', 'B', 'C', 'D'];
+  let rows = [['a1', 'b1', 'c1', 'd1'], ['a2', 'b2', 'c2', 'd2'], ['a3', 'b3', 'c3', 'd3']];
+  createOutputStep(columns, rows);
   
   document.getElementById('output').style.display = "block";
 }

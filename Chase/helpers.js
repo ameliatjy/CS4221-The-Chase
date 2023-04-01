@@ -76,6 +76,15 @@ export function isJD(dependency) {
         return true;
 }
 
+export function isMVD(dependency) {
+        if (! dependency.mvd) {
+                return false;
+        }
+
+        return true;
+}
+
+
 export function convertMVDsToJDs(relation, C) {
         let processedC = [];
 

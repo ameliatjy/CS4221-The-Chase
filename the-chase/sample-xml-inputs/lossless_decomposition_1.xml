@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chase>
-  <loseless_decomposition>
+  <lossless_decomposition>
     <relation>
       <attribute>A</attribute>
       <attribute>B</attribute>
@@ -46,5 +46,5 @@
       <attribute>A</attribute>
       <attribute>D</attribute>
     </fragment>
-  </loseless_decomposition>
+  </lossless_decomposition>
 </chase>

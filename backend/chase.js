@@ -1,4 +1,7 @@
-import { TASK_ENTAILMENT, TASK_LOSSLESS_DECOMPOSITION, TASK_MINIMAL_COVER, TASK_PROJECTED_DEPENDENCIES, TASK_TEST_DEPENDENCY_PRESERVATION } from "./global";
+import { chaseEntailmentFDWithDistinguishedVariables, chaseEntailmentMVD, chaseEntailmentSimpleChaseFD } from "../Chase/chaseEntailment";
+import { chaseLosslessDecomposition } from "../Chase/chaseLosslessDecomposition";
+import { chaseMinCover } from "../Chase/chaseMinCover";
+import { TASK_ENTAILMENT, TASK_LOSSLESS_DECOMPOSITION, TASK_MINIMAL_COVER, TASK_PROJECTED_DEPENDENCIES, TASK_TEST_DEPENDENCY_PRESERVATION, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, TYPE_SIMPLE_CHASE } from "./global";
 
 /**
  * This function runs the chase algorithm.
@@ -19,39 +22,46 @@ import { TASK_ENTAILMENT, TASK_LOSSLESS_DECOMPOSITION, TASK_MINIMAL_COVER, TASK_
 export function chase(relation, fds, task, type, otherInfo) {
   switch (task) {
     case TASK_ENTAILMENT:
-      chaseEntailment();
-      break;
+      return chaseEntailment(relation, fds, type, otherInfo);
     case TASK_LOSSLESS_DECOMPOSITION:
-      chaseLosslessDecomposition();
-      break;
+      return chaseLosslessDecomp(relation, fds, otherInfo);
     case TASK_PROJECTED_DEPENDENCIES:
-      chaseProjectedDependencies();
-      break;
+      return chaseProjectedDependencies();
     case TASK_MINIMAL_COVER:
-      chaseMinimalCover();
-      break;
+      return chaseMinimalCover(relation, fds);
     case TASK_TEST_DEPENDENCY_PRESERVATION:
-      chaseTestDependencyPreservation();
-      break;
+      return chaseTestDependencyPreservation();
     default:
       break;
   }
 }
 
-function chaseEntailment() {
-
+function chaseEntailment(relation, fds, type, otherInfo) {
+  let isMVD = otherInfo.mvd;
+  if (isMVD) {
+    return chaseEntailmentMVD(relation, fds, otherInfo);
+  } else {
+    if (type === TYPE_SIMPLE_CHASE) {
+      return chaseEntailmentSimpleChaseFD(relation, fds, otherInfo);
+    } else if (type === TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE) {
+      return chaseEntailmentFDWithDistinguishedVariables(relation, fds, otherInfo);
+    } else {
+      console.log("Invalid Type");
+    }
+  }
 }
 
-function chaseLosslessDecomposition() {
-
+function chaseLosslessDecomp(relation, fds, otherInfo) {
+  let relationSchemes = otherInfo.relationSchemes;
+  return chaseLosslessDecomposition(relation, fds, relationSchemes);
 }
 
 function chaseProjectedDependencies() {
 
 }
 
-function chaseMinimalCover() {
-
+function chaseMinimalCover(relation, fds) {
+  return chaseMinCover(relation, fds);
 }
 
 function chaseTestDependencyPreservation() {
