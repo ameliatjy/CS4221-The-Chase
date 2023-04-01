@@ -91,7 +91,6 @@ function getArgsFromInputObj(inputObj) {
     if (inputObj.chase.entailment.dependency_chased.type.toLowerCase() === "multivalued") {
       mvd = true;
     }
-
   let dependencyChased = {lhs: lhs, rhs: rhs, mvd: mvd};
   
   return {relation: relation, dependencies: dependencies, type: type, dependencyChased: dependencyChased};
@@ -99,16 +98,16 @@ function getArgsFromInputObj(inputObj) {
 
 function showResultForEntailment(inputObj) {
   let args = getArgsFromInputObj(inputObj);
-  console.log("relations:");
-  console.log(args.relation);
-  console.log("fds:");
-  console.log(args.dependencies);
-  console.log("task:");
-  console.log(TASK_ENTAILMENT);
-  console.log("type:");
-  console.log(args.type);
-  console.log("otherInfo:");
-  console.log(args.dependencyChased);
+  // console.log("relations:");
+  // console.log(args.relation);
+  // console.log("fds:");
+  // console.log(args.dependencies);
+  // console.log("task:");
+  // console.log(TASK_ENTAILMENT);
+  // console.log("type:");
+  // console.log(args.type);
+  // console.log("otherInfo:");
+  // console.log(args.dependencyChased);
   
   let output = chase(args.relation, args.dependencies, TASK_ENTAILMENT, args.type, args.dependencyChased);
   
