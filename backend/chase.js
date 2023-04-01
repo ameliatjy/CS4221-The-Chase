@@ -1,8 +1,8 @@
-import { chaseEntailmentFDWithDistinguishedVariables, chaseEntailmentMVD, chaseEntailmentSimpleChaseFD } from "../Chase/chaseEntailment";
-import { chaseLosslessDecomposition } from "../Chase/chaseLosslessDecomposition";
-import { chaseMinCover } from "../Chase/chaseMinCover";
-import { chaseProjectedDependencies } from "../Chase/chaseProjectedDependencies";
-import { TASK_ENTAILMENT, TASK_LOSSLESS_DECOMPOSITION, TASK_MINIMAL_COVER, TASK_PROJECTED_DEPENDENCIES, TASK_TEST_DEPENDENCY_PRESERVATION, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, TYPE_SIMPLE_CHASE } from "./global";
+import { chaseEntailmentFDWithDistinguishedVariables, chaseEntailmentMVD, chaseEntailmentSimpleChaseFD } from "../Chase/chaseEntailment.js";
+import { chaseLosslessDecomposition } from "../Chase/chaseLosslessDecomposition.js";
+import { chaseMinCover } from "../Chase/chaseMinCover.js";
+import { chaseProjectedDependencies } from "../Chase/chaseProjectedDependencies.js";
+import { TASK_ENTAILMENT, TASK_LOSSLESS_DECOMPOSITION, TASK_MINIMAL_COVER, TASK_PROJECTED_DEPENDENCIES, TASK_TEST_DEPENDENCY_PRESERVATION, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, TYPE_SIMPLE_CHASE } from "./global.js";
 
 /**
  * This function runs the chase algorithm.
