@@ -71,7 +71,7 @@ input::file-selector-button {
   border: thin solid #1a1a1a;
   border-radius: 5px;
   padding: 3px;
-  width: 100px;
+  width: 110px;
   text-align: center;
 }
 
@@ -166,7 +166,7 @@ td, th {
   text-align: center;
   font-size: 0.9em;
   display: inline-block;
-  width: 92px;
+  width: 102px;
 }
 
 .button:hover {

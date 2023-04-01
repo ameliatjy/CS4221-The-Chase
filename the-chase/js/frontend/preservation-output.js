@@ -43,6 +43,9 @@ function showInputForPreservation(inputObj) {
 
 export async function showOutputForPreservation() {
   let inputObj = await convertInputXmlToObj("fileForPreservation");
+  if (inputObj === null) {
+    return;
+  }
   if (Object.keys(inputObj).length === 0) {
     return;
   }

@@ -36,6 +36,9 @@ function showInputForProjected(inputObj) {
 
 export async function showOutputForProjected() {
   let inputObj = await convertInputXmlToObj("fileForProjected");
+  if (inputObj === null) {
+    return;
+  }
   if (Object.keys(inputObj).length === 0) {
     return;
   }

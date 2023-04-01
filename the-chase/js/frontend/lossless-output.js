@@ -43,6 +43,9 @@ function showInputForLossless(inputObj) {
 
 export async function showOutputForLossless() {
   let inputObj = await convertInputXmlToObj("fileForLossless");
+  if (inputObj === null) {
+    return;
+  }
   if (Object.keys(inputObj).length === 0) {
     return;
   }
