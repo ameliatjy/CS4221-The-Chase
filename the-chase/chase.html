@@ -7,9 +7,11 @@
 	<script src="js/frontend/main.js"></script>
     <script type="module">
         import {showOutputForEntailment} from "./js/frontend/entailment-output.js";
-        window.showOutputForEntailment = showOutputForEntailment;
         import {showOutputForLossless} from "./js/frontend/lossless-output.js";
+        import {showOutputForProjected} from "./js/frontend/projected-output.js";
+        window.showOutputForEntailment = showOutputForEntailment;
         window.showOutputForLossless = showOutputForLossless;
+        window.showOutputForProjected = showOutputForProjected;
     </script>
 </head>
 <body>
@@ -74,9 +76,22 @@
             <div id="projected" class="tabContent">
                 <div class="inputSegment">
                     <h3>Select Input XML File</h3>
-                    <input type="file" class="fileUploadButton" id="myFile" accept=".xml">
+                    <input type="file" class="fileUploadButton" id="fileForProjected" accept=".xml">
                 </div>
-                <div class="button">Run Chase</div>
+                 <div class="inputSegment">
+                    <h3>Select Chase Variation</h3>
+                    <div class="selectChaseVariation">
+                        <label>
+                            <input type="radio" name="typeForProjected" value="TYPE_SIMPLE_CHASE" checked>
+                            Simple Chase
+                        </label>
+                        <label>
+                            <input type="radio" name="typeForProjected" value="TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE">
+                            Chase with Distinguished Variables
+                        </label>
+                    </div>
+                </div>
+                <div class="button" onclick="showOutputForProjected()">Run Chase</div>
             </div>
             <div id="minimum" class="tabContent">
                 <div class="inputSegment">

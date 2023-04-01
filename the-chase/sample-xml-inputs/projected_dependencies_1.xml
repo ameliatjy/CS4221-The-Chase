@@ -39,6 +39,6 @@
       <attribute>A</attribute>
       <attribute>B</attribute>
       <attribute>C</attribute>
-    </dependency>
+    </projection>
   </projected_dependencies>
 </chase>
