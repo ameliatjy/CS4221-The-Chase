@@ -1,13 +1,4 @@
-// constants for the different chase tasks
-const TASK_ENTAILMENT = 1;
-const TASK_LOSSLESS_DECOMPOSITION = 2;
-const TASK_PROJECTED_DEPENDENCIES = 3;
-const TASK_MINIMAL_COVER = 4;
-const TASK_TEST_DEPENDENCY_PRESERVATION = 5;
-
-// constants for the chase types
-const TYPE_SIMPLE_CHASE = 1;
-const TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE = 2;
+import { TASK_ENTAILMENT, TASK_LOSSLESS_DECOMPOSITION, TASK_MINIMAL_COVER, TASK_PROJECTED_DEPENDENCIES, TASK_TEST_DEPENDENCY_PRESERVATION } from "./global";
 
 /**
  * This function runs the chase algorithm.
@@ -25,7 +16,7 @@ const TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE = 2;
  * 
  * @return {Object} Result of chase and array of tableau state at each step of chase.
  */
-function chase(relation, fds, task, type, otherInfo) {
+export function chase(relation, fds, task, type, otherInfo) {
   switch (task) {
     case TASK_ENTAILMENT:
       chaseEntailment();
