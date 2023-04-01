@@ -63,6 +63,26 @@ input[type="file"] {
   cursor: pointer;
 }
 
+input::file-selector-button {
+  opacity: 0.9;
+  cursor: pointer;
+  background-color: #333333;
+  color: #ffffff;
+  border: thin solid #1a1a1a;
+  border-radius: 5px;
+  padding: 3px;
+  width: 100px;
+  text-align: center;
+}
+
+input::file-selector-button:hover {
+  background-color: #4d4d4d;
+}
+
+input::file-selector-button:active {
+  border: thin solid #0088cc;;
+}
+
 label {
   font-size: 0.9em;
 }
@@ -143,10 +163,10 @@ td, th {
   border: thin solid #1a1a1a;
   border-radius: 5px;
   padding: 3px;
-  margin-bottom: 5px;
-  width: 100px;
   text-align: center;
   font-size: 0.9em;
+  display: inline-block;
+  width: 92px;
 }
 
 .button:hover {
