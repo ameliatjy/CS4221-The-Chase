@@ -1,6 +1,6 @@
 import { TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, TYPE_SIMPLE_CHASE } from '../backend/global.js';
 import { chaseProjectedDependencies } from './chaseProjectedDependencies.js';
-import { prettyPrintResult, prettyPrintC } from './helpers.js';
+import { prettyPrintC } from './helpers.js';
 
 let relation, C, projectedRelation, MVD, JD, resultPhrase;
 let outputElement = document.getElementById('output');
@@ -25,11 +25,8 @@ C = [
   }
 ]
 projectedRelation = ['A', 'B', 'C']
-
 // resultPhrase = `Relation ${relation} with C = ${prettyPrintC(C)}. What are the FD/MVD for the projected relation ${projectedRelation}? `;
 // let result = chaseProjectedDependencies(relation, C, projectedRelation, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE);
-// prettyPrintResult(result, outputElement, resultPhrase);
-// console.log(result);
 
 // test case 2
 relation = ['A', 'B', 'C', 'D', 'E'];
@@ -55,11 +52,9 @@ C = [
     mvd: false
   }
 ]
-// projectedRelation = ['A', 'B', 'E']
+projectedRelation = ['A', 'B', 'E'];
 // resultPhrase = `Relation ${relation} with C = ${prettyPrintC(C)}. What are the FD/MVD for the projected relation ${projectedRelation}? `;
 // let result = chaseProjectedDependencies(relation, C, projectedRelation, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE);
-// prettyPrintResult(result, outputElement, resultPhrase);
-// console.log(result);
 
 // test case 3
 relation = ['A', 'B', 'C', 'D', 'E'];
@@ -85,8 +80,17 @@ C = [
     mvd: false
   }
 ]
-projectedRelation = ['A', 'B', 'C']
+projectedRelation = ['A', 'B', 'C'];
 resultPhrase = `Relation ${relation} with C = ${prettyPrintC(C)}. What are the FD/MVD for the projected relation ${projectedRelation}? `;
 let result = chaseProjectedDependencies(relation, C, projectedRelation, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE);
-prettyPrintResult(result, outputElement, resultPhrase);
-console.log(result);
+
+let resultText = '';
+for (const F of result.result) {
+  if (F.mvd) {
+    resultText += F.lhs + '->>' + F.rhs + ', ';
+  } else {
+    resultText += F.lhs + '->' + F.rhs + ', ';
+  }
+}
+let resultTextNode = document.createTextNode(resultText);
+outputElement.appendChild(resultTextNode);

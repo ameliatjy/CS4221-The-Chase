@@ -135,13 +135,6 @@ export function chaseProjectedDependencies(relation, fds, projectedRelation, typ
                 "3b. Use the chase for entailment to simplify the LHS of the functional dependencies."
   });
   return {
-    result: T,
-    steps: [],
-    finalTableau: {
-      columns: ['A1', 'A2', 'A3', 'A4'],
-      rows: [
-        ['a1', 'a2', 'b1', 'b2']
-      ]
-    }
+    result: T
   }
 }
