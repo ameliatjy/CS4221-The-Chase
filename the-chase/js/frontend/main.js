@@ -3,8 +3,6 @@ function clearFileInput(taskName) {
     fileForEntailment.value = "";
   } else if (taskName === "lossless") {
     fileForLossless.value = "";
-  } else if (taskName === "preservation") {
-    fileForPreservation.value = "";
   } else if (taskName === "projected") {
     fileForProjected.value = "";
   } else if (taskName === "minimum") {
@@ -91,4 +89,9 @@ function createOutputStep(columns, rows, description) {
   }
     
   document.getElementById("output").append(step);
+}
+
+function xmlBuilder(jsObj) {
+  const builder = new XMLBuilder;
+  let xmlDataStr = builder.build(jsObj);
 }

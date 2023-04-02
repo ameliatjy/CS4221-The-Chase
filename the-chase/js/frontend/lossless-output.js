@@ -2,7 +2,7 @@ import {chase} from "../../../backend/chase.js";
 import {TASK_LOSSLESS_DECOMPOSITION, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE} from "../../../backend/global.js";
 
 function getRelationFromInput(inputObj) {
-  let relation = "{" + inputObj.chase.lossless_decomposition.relation.attribute.toString()
+  let relation = "{" + inputObj.chase.lossless_decomposition.relation.attribute.toString();
   relation = relation.replaceAll("," , ", ") + "}";
   return relation;
 }
@@ -51,7 +51,7 @@ function showInputForLossless(inputObj) {
   
   let dependencies = document.createElement("p");
   let dependenciesText = "Dependencies: " + getDependenciesFromInput(inputObj);
-  node = document.createTextNode(dependenciesText.replaceAll("," , ", "));
+  node = document.createTextNode(dependenciesText);
   dependencies.appendChild(node);
   
   let fragments = document.createElement("p");
@@ -90,19 +90,9 @@ function getArgsFromInputObj(inputObj) {
 
 function showResultForLossless(inputObj) {
   let args = getArgsFromInputObj(inputObj);
-  // console.log("relations:");
-  // console.log(args.relation);
-  // console.log("fds:");
-  // console.log(args.dependencies);
-  // console.log("task:");
-  // console.log(TASK_LOSSLESS_DECOMPOSITION);
-  // console.log("type:");
-  // console.log(TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE);
-  // console.log("fragments");
-  // console.log(args.fragments);
   
-  let output = chase(args.relation, args.dependencies, TASK_LOSSLESS_DECOMPOSITION, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, args.fragments);
-  console.log(output);
+  let output = chase(args.relation, args.dependencies, TASK_LOSSLESS_DECOMPOSITION,
+    TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, args.fragments);
   
   let steps = output.steps;
   for (let i = 0; i < steps.length; i++) {
@@ -118,9 +108,11 @@ function showResultForLossless(inputObj) {
   let fragments = getFragmentsFromInput(inputObj);
   let resultStr = "";
   if (result) {
-    resultStr = "Decomposition of Relation " + relation + " with Dependencies " + dependencies + " into Fragments " + fragments +  " is lossless";
+    resultStr = "Decomposition of Relation " + relation + " with Dependencies " + dependencies
+      + " into Fragments " + fragments +  " is lossless";
   } else {
-    resultStr = "Decomposition of Relation " + relation + " with Dependencies " + dependencies + " into Fragments " + fragments +  " is NOT lossless";
+    resultStr = "Decomposition of Relation " + relation + " with Dependencies " + dependencies
+      + " into Fragments " + fragments +  " is NOT lossless";
   }
   
   let finalTableau = output.finalTableau;

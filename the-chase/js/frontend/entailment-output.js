@@ -2,7 +2,7 @@ import {chase} from "../../../backend/chase.js";
 import {TASK_ENTAILMENT, TYPE_SIMPLE_CHASE, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE} from "../../../backend/global.js";
 
 function getRelationFromInput(inputObj) {
-  let relation = "{" + inputObj.chase.entailment.relation.attribute.toString()
+  let relation = "{" + inputObj.chase.entailment.relation.attribute.toString();
   relation = relation.replaceAll("," , ", ") + "}";
   return relation;
 }
@@ -98,16 +98,6 @@ function getArgsFromInputObj(inputObj) {
 
 function showResultForEntailment(inputObj) {
   let args = getArgsFromInputObj(inputObj);
-  // console.log("relations:");
-  // console.log(args.relation);
-  // console.log("fds:");
-  // console.log(args.dependencies);
-  // console.log("task:");
-  // console.log(TASK_ENTAILMENT);
-  // console.log("type:");
-  // console.log(args.type);
-  // console.log("otherInfo:");
-  // console.log(args.dependencyChased);
   
   let output = chase(args.relation, args.dependencies, TASK_ENTAILMENT, args.type, args.dependencyChased);
   
@@ -155,4 +145,7 @@ export async function showOutputForEntailment() {
   
   showInputForEntailment(inputObj);
   showResultForEntailment(inputObj);
+}
+
+export function exportResultToXml() {
 }
