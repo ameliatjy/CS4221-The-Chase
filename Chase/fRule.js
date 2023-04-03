@@ -1,6 +1,7 @@
 import { isTableauFormattedCorrectly, isFDFormattedCorrectly } from './helpers.js';
 
 export function fRule(tableau, FD) {
+        console.log('fRule called', tableau, FD);
        // check that the tableau is in the correct format, throw an error if not
         if (! isTableauFormattedCorrectly(tableau)) {
                 throw new Error('Tableau is not in the correct format');

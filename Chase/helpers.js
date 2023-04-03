@@ -90,6 +90,11 @@ export function convertMVDsToJDs(relation, C) {
 
         for (let i = 0; i < C.length; i++) {
                 let FD = C[i];
+                // if FD is undefined, skip it
+                if (!FD) {
+                        continue;
+                }
+
                 if (FD.mvd) {
                         let JD = {
                                 relationSchemes: convertMVDToFragments(relation, FD),

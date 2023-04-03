@@ -93,6 +93,7 @@ export function chaseEntailmentSimpleChaseFD(relation, C, FD) {
 export function chaseEntailmentFDWithDistinguishedVariables(relation, C, FD) {
         let tableau = setupTableauForChasingFDWithDistinguishedVariables(relation, FD);
         let steps = [];
+        console.log('entailment', relation, C, FD);
         steps.push({
                 description: `Setup tableau to test if FD ${FD.lhs} -> ${FD.rhs} is implied. Chase FD with distinguished variables.`,
                 tableau: snapshotOfTableau(tableau),

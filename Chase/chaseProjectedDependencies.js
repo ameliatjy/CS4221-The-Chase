@@ -1,5 +1,7 @@
-import { TYPE_SIMPLE_CHASE } from "../backend/global.js";
+// import { TYPE_SIMPLE_CHASE } from "../backend/global.js";
 import { chaseEntailmentFDWithDistinguishedVariables, chaseEntailmentMVD, chaseEntailmentSimpleChaseFD } from "./chaseEntailment.js";
+
+const TYPE_SIMPLE_CHASE = 1;
 
 function closure(fds, schema) {
   let closure = new Set(schema);
