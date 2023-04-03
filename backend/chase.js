@@ -2,7 +2,7 @@ import { chaseEntailmentFDWithDistinguishedVariables, chaseEntailmentMVD, chaseE
 import { chaseLosslessDecomposition } from "../Chase/chaseLosslessDecomposition.js";
 import { chaseMinCover } from "../Chase/chaseMinCover.js";
 import { chaseProjectedDependencies } from "../Chase/chaseProjectedDependencies.js";
-import { chaseTestDependencyPreservation } from "../Chase/chaseTestDependencyPreservation.js";
+import { chaseDP } from "../Chase/chaseDP.js";
 import { TASK_ENTAILMENT, TASK_LOSSLESS_DECOMPOSITION, TASK_MINIMAL_COVER, TASK_PROJECTED_DEPENDENCIES, TASK_TEST_DEPENDENCY_PRESERVATION, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, TYPE_SIMPLE_CHASE } from "./global.js";
 
 /**
@@ -67,5 +67,5 @@ function chaseMinimalCover(relation, fds) {
 }
 
 function chaseTestDependencyPreservation(relation, fds, otherInfo) {
-  return chaseDependencyPreservation(relation, fds, otherInfo.relationSchemes);
+  return chaseDP(relation, fds, otherInfo.relationSchemes);
 }
