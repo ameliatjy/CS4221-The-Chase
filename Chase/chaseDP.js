@@ -33,7 +33,20 @@ export function chaseDP(relation, C, relationSchemes) {
                 let isEntailed = false;
                 for (let j = 0; j < projectedDependencies.length; j++) {
                         let currentProjectedDependencies = projectedDependencies[j];
-                        if (isFD(C[i])) {
+
+                        if (isMVD(C[i])) {
+                                let result = chaseEntailmentMVD(relation, currentProjectedDependencies, C[i]);
+
+                                if (result.result) {
+                                        steps.push({
+                                                description: `MVD ${C[i].lhs} ->> ${C[i].rhs} is entailed by the projected dependencies ${prettyPrintC(currentProjectedDependencies)}`,
+                                                result: true,
+                                        });
+                                        isEntailed = true;
+                                        break;
+                                }
+
+                        } else if (isFD(C[i])) {
                                 let result = chaseEntailmentFDWithDistinguishedVariables(relation, currentProjectedDependencies, C[i]);
                                 if (result.result) {
                                         // add descript 'FD A -> B is entailed by projected dependecies prettyPrintC()
@@ -44,17 +57,8 @@ export function chaseDP(relation, C, relationSchemes) {
                                         isEntailed = true;
                                         break;
                                 }
-                        } else if (isMVD(C[i])) {
-                                let result = chaseEntailmentMVD(relation, currentProjectedDependencies, C[i]);
-                                if (result.result) {
-                                        steps.push({
-                                                description: `MVD ${C[i].lhs} ->> ${C[i].rhs} is entailed by the projected dependencies ${prettyPrintC(currentProjectedDependencies)}`,
-                                                result: true,
-                                        });
-                                        isEntailed = true;
-                                        break;
-                                }
-                        }
+                        }                 
+
                 }
 
                 if (!isEntailed) {

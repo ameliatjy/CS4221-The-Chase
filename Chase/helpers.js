@@ -61,6 +61,10 @@ export function isFD(dependency) {
                 return false;
         }
 
+        if (dependency.mvd) {
+                return false;
+        }
+
         return true;
 }
 
