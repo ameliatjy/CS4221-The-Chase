@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chase>
-  <minimum_cover>
+  <minimal_cover>
     <relation>
       <attribute>A</attribute>
       <attribute>B</attribute>
@@ -37,5 +37,5 @@
       </rhs>
       <type>functional</type>
     </dependency>
-  </minimum_cover>
+  </minimal_cover>
 </chase>

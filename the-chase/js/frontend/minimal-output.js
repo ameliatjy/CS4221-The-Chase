@@ -2,14 +2,14 @@ import {chase} from "../../../backend/chase.js";
 import {TASK_MINIMAL_COVER, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE} from "../../../backend/global.js";
 
 function getRelationFromInput(inputObj) {
-  let relation = "{" + inputObj.chase.minimum_cover.relation.attribute.toString();
+  let relation = "{" + inputObj.chase.minimal_cover.relation.attribute.toString();
   relation = relation.replaceAll("," , ", ") + "}";
   return relation;
 }
 
 function getDependenciesFromInput(inputObj) {
   let dependencies = "{";
-  let dependenciesArr = inputObj.chase.minimum_cover.dependency;
+  let dependenciesArr = inputObj.chase.minimal_cover.dependency;
   for (let i = 0; i < dependenciesArr.length; i++) {
     let symbol = "";
     if (dependenciesArr[i].type.toLowerCase() === "functional") {
@@ -27,7 +27,7 @@ function getDependenciesFromInput(inputObj) {
   return dependencies;
 }
 
-function showInputForMinimum(inputObj) {
+function showInputForMinimal(inputObj) {
   document.getElementById('userInput').style.display = "block";
   userInputFields.replaceChildren(); // clear previous user input fields
   
@@ -45,9 +45,9 @@ function showInputForMinimum(inputObj) {
 }
 
 function getArgsFromInputObj(inputObj) {
-  let relation = convertToArray(inputObj.chase.minimum_cover.relation.attribute);
+  let relation = convertToArray(inputObj.chase.minimal_cover.relation.attribute);
   
-  let dependenciesArr = convertToArray(inputObj.chase.minimum_cover.dependency);
+  let dependenciesArr = convertToArray(inputObj.chase.minimal_cover.dependency);
   let dependencies = [];
   for (let i = 0; i < dependenciesArr.length; i++) {
     let lhs = convertToArray(dependenciesArr[i].lhs.attribute);
@@ -62,7 +62,7 @@ function getArgsFromInputObj(inputObj) {
   return {relation: relation, dependencies: dependencies};
 }
 
-function showResultForMinimum(inputObj) {
+function showResultForMinimal(inputObj) {
   let args = getArgsFromInputObj(inputObj);
   
   let output = chase(args.relation, args.dependencies, TASK_MINIMAL_COVER, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, null);
@@ -81,9 +81,9 @@ function showResultForMinimum(inputObj) {
   let dependencies = getDependenciesFromInput(inputObj);
   let resultStr = "";
   if (result) {
-    resultStr = "Dependencies " + dependencies + " is a minimum cover for Relation " + relation;
+    resultStr = "Dependencies " + dependencies + " is a minimal cover for Relation " + relation;
   } else {
-    resultStr = "Dependencies " + dependencies + " is NOT a minimum cover for Relation " + relation;
+    resultStr = "Dependencies " + dependencies + " is NOT a minimal cover for Relation " + relation;
   }
   
   let finalTableau = output.finalTableau;
@@ -94,8 +94,8 @@ function showResultForMinimum(inputObj) {
   document.getElementById('output').style.display = "block";
 }
 
-export async function showOutputForMinimum() {
-  let inputObj = await convertInputXmlToObj("fileForMinimum");
+export async function showOutputForMinimal() {
+  let inputObj = await convertInputXmlToObj("fileForMinimal");
   if (inputObj === null) {
     return;
   }
@@ -109,6 +109,6 @@ export async function showOutputForMinimum() {
   document.getElementById('userInput').style.display = "block";
   document.getElementById('notation').style.display = "block";
 
-  showInputForMinimum(inputObj);
-  showResultForMinimum(inputObj);
+  showInputForMinimal(inputObj);
+  showResultForMinimal(inputObj);
 }

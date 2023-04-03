@@ -5,8 +5,8 @@ function clearFileInput(taskName) {
     fileForLossless.value = "";
   } else if (taskName === "projected") {
     fileForProjected.value = "";
-  } else if (taskName === "minimum") {
-    fileForMinimum.value = "";
+  } else if (taskName === "minimal") {
+    fileForMinimal.value = "";
   } 
 }
 
