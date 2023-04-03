@@ -4,7 +4,7 @@ const task = TASK_TEST_DEPENDENCY_PRESERVATION
 
 /**
  * TEST CASE 1
- * Expected: False
+ * Expected: True
  */
 const relation1 = ['A', 'B', 'C', 'D', 'E'];
 const fds1 = [
@@ -72,7 +72,7 @@ chase(relation2, fds2, task, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, otherInfo2)
 
 /**
  * TEST CASE 3
- * Expected: True
+ * Expected: False
  */
 const relation3 = ['A', 'B', 'C', 'D'];
 const fds3 = [
