@@ -3,7 +3,9 @@ function clearFileInput(taskName) {
     fileForEntailment.value = "";
   } else if (taskName === "lossless") {
     fileForLossless.value = "";
-  } else if (taskName === "projected") {
+  } else if (taskName === "preservation") {
+    fileForPreservation.value = "";
+  }else if (taskName === "projected") {
     fileForProjected.value = "";
   } else if (taskName === "minimal") {
     fileForMinimal.value = "";

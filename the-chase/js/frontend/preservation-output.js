@@ -1,5 +1,5 @@
-import {chase} from "../../../backend/chase.js";
-import {TASK_TEST_DEPENDENCY_PRESERVATION, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE} from "../../../backend/global.js";
+import {chase} from "../backend/chase.js";
+import {TASK_TEST_DEPENDENCY_PRESERVATION, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE} from "../backend/global.js";
 
 function getRelationFromInput(inputObj) {
   let relation = "{" + inputObj.chase.dependency_preservation.relation.attribute.toString();
@@ -90,18 +90,19 @@ function getArgsFromInputObj(inputObj) {
 
 function showResultForPreservation(inputObj) {
   let args = getArgsFromInputObj(inputObj);
-  // console.log("relations:");
-  // console.log(args.relation);
-  // console.log("fds:");
-  // console.log(args.dependencies);
-  // console.log("task:");
-  // console.log(TASK_TEST_DEPENDENCY_PRESERVATION);
-  // console.log("type:");
-  // console.log(TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE);
-  // console.log("fragments");
-  // console.log(args.fragments);
+  console.log("relations:");
+  console.log(args.relation);
+  console.log("fds:");
+  console.log(args.dependencies);
+  console.log("task:");
+  console.log(TASK_TEST_DEPENDENCY_PRESERVATION);
+  console.log("type:");
+  console.log(TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE);
+  console.log("fragments");
+  console.log(args.fragments);
   
-  let output = chase(args.relation, args.dependencies, TASK_TEST_DEPENDENCY_PRESERVATION, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, args.fragments);
+  let output = chase(args.relation, args.dependencies, TASK_TEST_DEPENDENCY_PRESERVATION,
+    TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE, args.fragments);
   console.log(output);
   
   let steps = output.steps;

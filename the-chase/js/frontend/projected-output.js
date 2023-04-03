@@ -1,5 +1,5 @@
-import {chase} from "../../../backend/chase.js";
-import {TASK_PROJECTED_DEPENDENCIES, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE} from "../../../backend/global.js";
+import {chase} from "../backend/chase.js";
+import {TASK_PROJECTED_DEPENDENCIES, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE} from "../backend/global.js";
 
 function getRelationFromInput(inputObj) {
   let relation = "{" + inputObj.chase.projected_dependencies.relation.attribute.toString();

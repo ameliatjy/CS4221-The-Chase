@@ -1,5 +1,5 @@
-import {chase} from "../../../backend/chase.js";
-import {TASK_ENTAILMENT, TYPE_SIMPLE_CHASE, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE} from "../../../backend/global.js";
+import {chase} from "../backend/chase.js";
+import {TASK_ENTAILMENT, TYPE_SIMPLE_CHASE, TYPE_CHASE_WITH_DISTINGUISHED_VARIABLE} from "../backend/global.js";
 
 function getRelationFromInput(inputObj) {
   let relation = "{" + inputObj.chase.entailment.relation.attribute.toString();
