@@ -18,4 +18,5 @@ is to copy the "the-chase" folder into your webserver.
 To open the Visualiser for the Chase Algorithm, open the "chase.html" webpage that is hosted in 
 your webserver. The sample input XML file for each task is located in the "sample-xml-inputs" folder 
 in this repository. There is a one-to-one mapping for the sample input files. E.g. To execute the 
-entailment task, you can input "entailment_1.xml" into the web application.
+entailment task, you can input "entailment_1.xml" into the web application. A live version of the
+[Visualiser for the Chase Algorithm](https://wz-chan.github.io/) is also available for your convenience
